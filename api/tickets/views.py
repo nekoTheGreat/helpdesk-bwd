@@ -15,15 +15,18 @@ def index(request):
     return Response(serializer.data)
 
 
-@api_view(['GET', 'PUT'])
+@api_view(['GET', 'PUT', 'DELETE'])
 def get_ticket(request, id: int):
     if request.method == 'PUT':
         return store(request, id)
     try:
         data = None
         ticket = Ticket.objects.get(pk=id)
-        serializer = TicketSerializer(ticket)
-        data = serializer.data
+        if request.method == 'DELETE':
+            ticket.delete()
+        else:
+            serializer = TicketSerializer(ticket)
+            data = serializer.data
         response_status = status.HTTP_200_OK
     except Ticket.DoesNotExist:
         response_status = status.HTTP_404_NOT_FOUND
