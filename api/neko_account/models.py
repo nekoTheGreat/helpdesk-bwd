@@ -12,3 +12,6 @@ class AccountUser(models.Model):
     city = models.CharField(max_length=255, null=True, blank=True)
     province = models.CharField(max_length=255, null=True, blank=True)
     country = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = "account_users"
