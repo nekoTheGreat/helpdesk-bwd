@@ -10,8 +10,8 @@ from .services import save_account_user
 def index(request):
     if request.method == 'POST':
         return store(request)
-    tickets = AccountUser.objects.all()
-    serializer = AccountUserSerializer(tickets, many=True)
+    account_user = AccountUser.objects.all()
+    serializer = AccountUserSerializer(account_user, many=True)
     return Response(serializer.data)
 
 
@@ -21,11 +21,11 @@ def get_account_user(request, id: int):
         return store(request, id)
     try:
         data = None
-        ticket = AccountUser.objects.get(pk=id)
+        account_user = AccountUser.objects.get(pk=id)
         if request.method == 'DELETE':
-            ticket.delete()
+            account_user.delete()
         else:
-            serializer = AccountUserSerializer(ticket)
+            serializer = AccountUserSerializer(account_user)
             data = serializer.data
         response_status = status.HTTP_200_OK
     except AccountUser.DoesNotExist:
