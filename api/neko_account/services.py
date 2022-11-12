@@ -9,7 +9,7 @@ def save_account_user(data, id: int = None):
         serializer = AccountUserSerializer(ticket, data=data)
     else:
         serializer = AccountUserSerializer(data=data)
-    if serializer.is_valid():
+    if not serializer.is_valid():
         raise serializers.ValidationError(serializer.errors, status.HTTP_400_BAD_REQUEST)
     serializer.save()
     return serializer.data
