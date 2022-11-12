@@ -10,6 +10,6 @@ def save_ticket(data, id: int = None):
     else:
         serializer = TicketSerializer(data=data)
     if not serializer.is_valid():
-        raise serializers.ValidationError("Ticket invalid", status.HTTP_400_BAD_REQUEST)
+        raise serializers.ValidationError(serializer.errors, status.HTTP_400_BAD_REQUEST)
     serializer.save()
     return serializer.data
