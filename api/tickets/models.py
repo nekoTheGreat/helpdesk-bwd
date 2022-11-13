@@ -9,7 +9,6 @@ class Ticket(BaseModel):
     poblacion = models.CharField(max_length=255, null=True, blank=True)
     barangay = models.CharField(max_length=255, null=True, blank=True)
     municipality = models.CharField(max_length=255, null=True, blank=True)
-    created_by = models.CharField(max_length=255)
     user = models.ForeignKey("neko_users.User", on_delete=models.CASCADE, default=None)
 
     class Meta:
