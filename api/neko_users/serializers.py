@@ -21,12 +21,15 @@ class UserSerializer(serializers.ModelSerializer):
         return updates
 
     def create(self, validated_data):
-        validated_data = {**validate_data, **self.prepareDataBeforeSave(validated_data)}
+        validated_data = {**validated_data, **self.prepareDataBeforeSave(validated_data)}
         return User.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        partials = self.prepareDataBeforeSave(validated_data)
-        for prop in partials:
-            setattr(instance, prop, partials[prop])
+        updates = {**validated_data, **self.prepareDataBeforeSave(validated_data)}
+        print(updates)
+        for prop in updates:
+            if prop in ['groups', 'user_permissions']:
+                continue
+            setattr(instance, prop, updates[prop])
         instance.save()
         return instance
