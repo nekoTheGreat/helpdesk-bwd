@@ -75,6 +75,7 @@ class User(AbstractUser, PermissionsMixin, BaseModel):
     city = models.CharField(max_length=255, null=True, blank=True)
     province = models.CharField(max_length=255, null=True, blank=True)
     country = models.CharField(max_length=255)
+    contact_number = models.CharField(max_length=20, null=True, blank=True)
 
     objects = NekoUserManager()
 
