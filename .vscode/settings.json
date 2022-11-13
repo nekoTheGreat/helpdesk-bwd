@@ -1,4 +1,4 @@
 {
-    "editor.tabSize": 2,
-    "editor.comments.insertSpace": false
+    "editor.tabSize": 4,
+    "python.defaultInterpreterPath": "C:/ProgLang/Python/Python310/python.exe"
 }
