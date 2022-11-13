@@ -9,7 +9,7 @@ class Ticket(BaseModel):
     poblacion = models.CharField(max_length=255, null=True, blank=True)
     barangay = models.CharField(max_length=255, null=True, blank=True)
     municipality = models.CharField(max_length=255, null=True, blank=True)
-    user = models.ForeignKey("neko_users.User", on_delete=models.CASCADE, default=None)
+    user = models.ForeignKey("neko_users.User", db_column="user_id", on_delete=models.CASCADE, default=None)
 
     class Meta:
         db_table = "tickets"
