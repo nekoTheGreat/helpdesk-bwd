@@ -1,5 +1,5 @@
 from django.db import models
-from neko_commons.models import BaseModel
+from neko_commons.models import BaseModel, Attachment
 
 class Ticket(BaseModel):
     subject = models.CharField(max_length=255)
@@ -10,6 +10,9 @@ class Ticket(BaseModel):
     barangay = models.CharField(max_length=255, null=True, blank=True)
     municipality = models.CharField(max_length=255, null=True, blank=True)
     user = models.ForeignKey("neko_users.User", db_column="user_id", on_delete=models.CASCADE, default=None)
+    @property
+    def attachments(self):
+        return Attachment.objects.filter(type="ticket", identifier=self.id).all()
 
     class Meta:
         db_table = "tickets"
