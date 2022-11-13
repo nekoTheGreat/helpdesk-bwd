@@ -6,7 +6,7 @@ from .serializers import TicketSerializer
 def save_ticket(data, id: int = None):
     if id is not None:
         ticket = Ticket.objects.get(pk=id)
-        serializer = TicketSerializer(ticket, data=data)
+        serializer = TicketSerializer(ticket, data=data, partial=True)
     else:
         serializer = TicketSerializer(data=data)
     if not serializer.is_valid():
