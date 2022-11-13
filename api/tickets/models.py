@@ -11,7 +11,6 @@ class Ticket(models.Model):
     municipality = models.CharField(max_length=255, null=True, blank=True)
     created_at = models.DateTimeField('date published')
     created_by = models.CharField(max_length=255)
-    account_user = models.ForeignKey('neko_account.AccountUser', on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         db_table = "tickets"

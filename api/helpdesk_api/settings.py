@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'tickets.apps.TicketsConfig',
-    'neko_account.apps.AuthConfig',
 ]
 
 MIDDLEWARE = [
