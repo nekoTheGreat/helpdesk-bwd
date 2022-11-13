@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'neko_commons.apps.NekoCommonsConfig',
     'tickets.apps.TicketsConfig',
     'neko_users.apps.NekoUsersConfig',
 ]
