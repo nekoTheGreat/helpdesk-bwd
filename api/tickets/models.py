@@ -13,3 +13,13 @@ class Ticket(BaseModel):
 
     class Meta:
         db_table = "tickets"
+
+class Attachment(BaseModel):
+    type = models.CharField(max_length=30, db_index=True)
+    identifier = models.BigIntegerField(db_index=True)
+    disk_type = models.CharField(max_length=30)
+    file_path = models.TextField()
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = "attachments"
