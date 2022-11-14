@@ -11,9 +11,14 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env_path = str(BASE_DIR) + "/.env"
+load_dotenv(env_path)
 
 
 # Quick-start development settings - unsuitable for production
@@ -55,6 +60,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'helpdesk_api.urls'
+ATTACHMENTS_DIR = os.environ.get("ATTACHMENTS_DIR")
 
 TEMPLATES = [
     {
