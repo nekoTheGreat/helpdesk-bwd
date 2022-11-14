@@ -13,6 +13,8 @@ class Attachment(BaseModel):
     disk_type = models.CharField(max_length=30)
     file_path = models.TextField()
     is_active = models.BooleanField(default=True)
+    file_name = models.CharField(max_length=255)
+    unique_file_name = models.CharField(max_length=255)
 
     class Meta:
         db_table = "attachments"
