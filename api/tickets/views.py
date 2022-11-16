@@ -67,10 +67,10 @@ def store(request, id: int = None):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 def processAttachments(files):
-    if len(files) == 0:
-        return None
-    images = files.getlist('images')
     items = []
+    if len(files) == 0:
+        return items
+    images = files.getlist('images')
     for file in images:
         ext = file.name.split(".").pop()
         filepath = os.path.join(settings.ATTACHMENTS_DIR, str(uuid4())+"."+ext)
