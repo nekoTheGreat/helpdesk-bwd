@@ -18,3 +18,9 @@ class Attachment(BaseModel):
 
     class Meta:
         db_table = "attachments"
+
+    @property
+    def url(self):
+        if self.disk_type == 'local':
+            return 'https://google.com/{}'.format(self.unique_file_name)
+        return 'https://any-cloud.com/{}'.format(self.unique_file_name)
