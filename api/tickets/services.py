@@ -1,7 +1,7 @@
 from .models import Ticket
 from rest_framework import serializers, status
 from .serializers import TicketSerializer
-
+from neko_commons.models import Attachment
 
 def save_ticket(data, id: int = None):
     if id is not None:
@@ -13,3 +13,9 @@ def save_ticket(data, id: int = None):
         raise serializers.ValidationError(serializer.errors, status.HTTP_400_BAD_REQUEST)
     serializer.save()
     return serializer.data
+
+def add_attachment(ticket, data):
+    obj = Attachment(**data)
+    obj.type = 'ticket_images'
+    obj.identifier = ticket.get('id')
+    obj.save()
