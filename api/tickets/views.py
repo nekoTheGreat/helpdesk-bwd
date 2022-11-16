@@ -4,6 +4,7 @@ from rest_framework import status
 from .serializers import TicketSerializer
 from .models import Ticket
 from .services import save_ticket, add_attachment
+from neko_commons.models import Attachment
 from uuid import uuid4
 import os
 from django.conf import settings
@@ -35,6 +36,24 @@ def get_ticket(request, id: int):
         response_status = status.HTTP_404_NOT_FOUND
     return Response(data=data, status=response_status)
 
+@api_view(['DELETE'])
+def delete_ticket_photo(request, ticket_id, photo_id):
+    response_status = status.HTTP_200_OK
+    try:
+        ticket = Ticket.objects.get(pk=ticket_id)
+        photo = ticket.photos.filter(id=photo_id).first()
+        if photo is None:
+            raise Attachment.DoesNotExist
+        photo.delete()
+        data = {"message": "Photo deleted"}
+    except Ticket.DoesNotExist as e:
+        data = {"error": "Ticket does not exists"}
+        response_status = status.HTTP_404_NOT_FOUND
+    except Attachment.DoesNotExist as e:
+        data = {"error": "Photo does not exists"}
+        response_status = status.HTTP_404_NOT_FOUND
+
+    return Response(data=data, status=response_status)
 
 def store(request, id: int = None):
     try:
