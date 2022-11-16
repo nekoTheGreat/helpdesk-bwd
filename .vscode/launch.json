@@ -9,6 +9,7 @@
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}\\api\\manage.py",
+      "python": "${workspaceFolder}\\api_env\\Scripts\\python",
       "args": [
         "runserver"
       ],
