@@ -11,8 +11,8 @@ class Ticket(BaseModel):
     municipality = models.CharField(max_length=255, null=True, blank=True)
     user = models.ForeignKey("neko_users.User", db_column="user_id", on_delete=models.CASCADE, default=None)
     @property
-    def attachments(self):
-        return Attachment.objects.filter(type="ticket", identifier=self.id).all()
+    def photos(self):
+        return Attachment.objects.filter(type="ticket_images", identifier=self.id, is_active=True).all()
 
     class Meta:
         db_table = "tickets"
