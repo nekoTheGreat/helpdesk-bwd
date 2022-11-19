@@ -14,22 +14,15 @@ class TicketListView(generics.ListCreateAPIView):
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
 
-@api_view(['GET', 'PUT', 'DELETE'])
-def get_ticket(request, id: int):
-    if request.method == 'PUT':
-        return store(request, id)
-    try:
-        data = None
-        ticket = Ticket.objects.get(pk=id)
-        if request.method == 'DELETE':
-            ticket.delete()
-        else:
-            serializer = TicketSerializer(ticket)
-            data = serializer.data
-        response_status = status.HTTP_200_OK
-    except Ticket.DoesNotExist:
-        response_status = status.HTTP_404_NOT_FOUND
-    return Response(data=data, status=response_status)
+class TicketCUDView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Ticket.objects.all()
+    serializer_class = TicketSerializer
+
+    def perform_update(self, serializer):
+        data = save_ticket(self.request.data, self.kwargs.get(self.lookup_field))
+        items = processAttachments(self.request.FILES)
+        for item in items:
+            add_attachment(data, item)
 
 @api_view(['DELETE'])
 def delete_ticket_photo(request, ticket_id, photo_id):
@@ -49,17 +42,6 @@ def delete_ticket_photo(request, ticket_id, photo_id):
         response_status = status.HTTP_404_NOT_FOUND
 
     return Response(data=data, status=response_status)
-
-def store(request, id: int = None):
-    try:
-        data = save_ticket(request.data, id)
-        items = processAttachments(request.FILES)
-        for item in items:
-            add_attachment(data, item)
-
-        return Response(data, status=status.HTTP_200_OK)
-    except Ticket.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
 
 def processAttachments(files):
     items = []
