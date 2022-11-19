@@ -24,24 +24,16 @@ class TicketCUDView(generics.RetrieveUpdateDestroyAPIView):
         for item in items:
             add_attachment(data, item)
 
-@api_view(['DELETE'])
-def delete_ticket_photo(request, ticket_id, photo_id):
-    response_status = status.HTTP_200_OK
-    try:
-        ticket = Ticket.objects.get(pk=ticket_id)
-        photo = ticket.photos.filter(id=photo_id).first()
-        if photo is None:
-            raise Attachment.DoesNotExist
-        photo.delete()
-        data = {"message": "Photo deleted"}
-    except Ticket.DoesNotExist as e:
-        data = {"error": "Ticket does not exists"}
-        response_status = status.HTTP_404_NOT_FOUND
-    except Attachment.DoesNotExist as e:
-        data = {"error": "Photo does not exists"}
-        response_status = status.HTTP_404_NOT_FOUND
+class TicketPhotoDeleteView(generics.DestroyAPIView):
+    queryset = Ticket.objects.all()
+    lookup_url_kwarg = 'ticket_id'
 
-    return Response(data=data, status=response_status)
+    def perform_destroy(self, instance):
+        try:
+            attachment = Attachment.objects.get(identifier=instance.id, pk=self.kwargs.get('photo_id'))
+            self.check_object_permissions(self.request, attachment)
+        except Attachment.DoesNotExist:
+            raise Attachment.DoesNotExist("Ticket's photo does not exist")
 
 def processAttachments(files):
     items = []
