@@ -1,5 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework import generics
 from rest_framework import status
 from .serializers import TicketSerializer
 from .models import Ticket
@@ -9,15 +10,9 @@ from uuid import uuid4
 import os
 from django.conf import settings
 
-
-@api_view(['GET', 'POST'])
-def index(request):
-    if request.method == 'POST':
-        return store(request)
-    tickets = Ticket.objects.all()
-    serializer = TicketSerializer(tickets, many=True)
-    return Response(serializer.data)
-
+class TicketListView(generics.ListCreateAPIView):
+    queryset = Ticket.objects.all()
+    serializer_class = TicketSerializer
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def get_ticket(request, id: int):
