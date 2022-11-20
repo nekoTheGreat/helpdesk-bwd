@@ -1,6 +1,9 @@
+from django.contrib.auth import login
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from rest_framework import status
+from rest_framework import status, permissions
+from knox.views import LoginView
+from neko_users.serializers import AuthTokenSerializer
 from .serializers import UserSerializer
 from .models import User
 from .services import save_user
@@ -39,3 +42,13 @@ def store(request, id: int = None):
         return Response(data, status=status.HTTP_200_OK)
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+
+class CustomKnoxLoginView(LoginView):
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request, format=None):
+        serializer = AuthTokenSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        login(request, user)
+        return super().post(request, format)

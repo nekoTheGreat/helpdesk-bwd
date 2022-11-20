@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'knox',
     'neko_commons.apps.NekoCommonsConfig',
     'tickets.apps.TicketsConfig',
     'neko_users.apps.NekoUsersConfig',
@@ -135,7 +136,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
    'EXCEPTION_HANDLER': 'helpdesk_api.exceptions.custom_exception_handler',
-#    'DEFAULT_PERMISSION_CLASSES': [
-#         'rest_framework.permissions.IsAuthenticatedOrReadyOnly',
-#    ]
+   'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+   ],
+   'DEFAULT_AUTHENTICATION_CLASSES': [
+        'knox.auth.TokenAuthentication'
+   ],
 }

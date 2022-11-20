@@ -15,9 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+from neko_users.views import CustomKnoxLoginView
+from knox.views import LogoutView, LogoutAllView
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/auth/login/', CustomKnoxLoginView.as_view(), name='auth_login'),
+    path('api/auth/logout/', LogoutView.as_view(), name="auth_logout"),
+    path('api/auth/logout-all/', LogoutAllView.as_view(), name="auth_logout_all"),
     path('api/tickets/', include('tickets.urls')),
     path('api/users/', include('neko_users.urls')),
 ]
