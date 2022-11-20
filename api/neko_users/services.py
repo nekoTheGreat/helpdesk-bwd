@@ -6,8 +6,11 @@ from django.contrib.auth.hashers import make_password
 
 def save_user(data, id: int = None):
     if id is not None:
-        ticket = User.objects.get(pk=id)
-        serializer = UserSerializer(ticket, data=data, partial=True)
+        try:
+            user = User.objects.get(pk=id)
+            serializer = UserSerializer(user, data=data, partial=True)
+        except:
+            raise User.DoesNotExist("User not found")
     else:
         serializer = UserSerializer(data=data)
     if not serializer.is_valid():
