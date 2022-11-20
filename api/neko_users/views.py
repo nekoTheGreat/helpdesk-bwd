@@ -2,46 +2,33 @@ from django.contrib.auth import login
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status, permissions
+from rest_framework import generics
 from knox.views import LoginView
 from neko_users.serializers import AuthTokenSerializer
 from .serializers import UserSerializer
 from .models import User
 from .services import save_user
+from .permissions import UserOwnedPermission
 
 
-@api_view(['GET', 'POST'])
-def index(request):
-    if request.method == 'POST':
-        return store(request)
-    user = User.objects.all()
-    serializer = UserSerializer(user, many=True)
-    return Response(serializer.data)
+class UserListCreateView(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsAdminUser]
+    queryset = User.objects.all()
+    lookup_url_kwarg = 'id'
+    serializer_class = UserSerializer
 
+class UserRUDView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [UserOwnedPermission]
+    queryset = User.objects.all()
+    lookup_url_kwarg = 'id'
+    serializer_class = UserSerializer
 
-@api_view(['GET', 'PUT', 'DELETE'])
-def get_user(request, id: int):
-    if request.method == 'PUT':
-        return store(request, id)
-    try:
-        data = None
-        user = User.objects.get(pk=id)
-        if request.method == 'DELETE':
-            user.delete()
-        else:
-            serializer = UserSerializer(user)
-            data = serializer.data
-        response_status = status.HTTP_200_OK
-    except User.DoesNotExist:
-        response_status = status.HTTP_404_NOT_FOUND
-    return Response(data=data, status=response_status)
+    def perform_update(self, serializer):
+        save_user(self.request.data, self.kwargs.get(self.lookup_url_kwarg))
 
-
-def store(request, id: int = None):
-    try:
-        data = save_user(request.data, id)
-        return Response(data, status=status.HTTP_200_OK)
-    except User.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+    def get_serializer(self, *args, **kwargs):
+        kwargs['partial'] = True
+        return super().get_serializer(*args, **kwargs)
 
 class CustomKnoxLoginView(LoginView):
     permission_classes = (permissions.AllowAny,)
