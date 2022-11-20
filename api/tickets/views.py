@@ -1,20 +1,21 @@
-from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import generics
-from rest_framework import status
 from .serializers import TicketSerializer
 from .models import Ticket
 from .services import save_ticket, add_attachment
 from neko_commons.models import Attachment
+from .permissions import TicketOwnerPermission
 from uuid import uuid4
 import os
 from django.conf import settings
 
 class TicketListView(generics.ListCreateAPIView):
+    permission_classes = [TicketOwnerPermission]
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
 
 class TicketCUDView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [TicketOwnerPermission]
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
 
@@ -25,6 +26,7 @@ class TicketCUDView(generics.RetrieveUpdateDestroyAPIView):
             add_attachment(data, item)
 
 class TicketPhotoDeleteView(generics.DestroyAPIView):
+    permission_classes = [TicketOwnerPermission]
     queryset = Ticket.objects.all()
     lookup_url_kwarg = 'ticket_id'
 
