@@ -134,5 +134,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-   'EXCEPTION_HANDLER': 'helpdesk_api.exceptions.custom_exception_handler'
+   'EXCEPTION_HANDLER': 'helpdesk_api.exceptions.custom_exception_handler',
+#    'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.IsAuthenticatedOrReadyOnly',
+#    ]
 }
