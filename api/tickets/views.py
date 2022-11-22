@@ -1,5 +1,5 @@
 from rest_framework.decorators import api_view
-from rest_framework import generics
+from rest_framework import generics, exceptions
 from .serializers import TicketSerializer
 from .models import Ticket
 from .services import save_ticket, add_attachment
@@ -43,6 +43,8 @@ def processAttachments(files):
         return items
     images = files.getlist('images')
     for file in images:
+        if file.size > settings.ATTACHMENT_MAX_SIZE:
+            raise exceptions.ValidationError({"images": "The maximum attachment size is 5mb"})
         ext = file.name.split(".").pop()
         filepath = os.path.join(settings.ATTACHMENTS_DIR, str(uuid4())+"."+ext)
         with open(filepath, 'wb+') as dest:
