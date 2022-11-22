@@ -62,6 +62,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'helpdesk_api.urls'
 ATTACHMENTS_DIR = os.environ.get("ATTACHMENTS_DIR")
+ATTACHMENT_MAX_SIZE = 5242880 # 5mb
 
 TEMPLATES = [
     {
