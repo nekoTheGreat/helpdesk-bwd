@@ -1,42 +1,24 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+</script>
 <template>
-  <q-page class="row items-center justify-evenly">
-    <example-component
-      title="Example component"
-      active
-      :todos="todos"
-      :meta="meta"
-    ></example-component>
+  <q-page class="q-pa-sm">
+    <div class="row reverse">
+      <q-btn color="primary" label="Signup" class="q-ml-sm" />
+      <q-btn color="primary" label="Login" class="q-ml-sm" />
+    </div>
+    <div class="row">
+      <div class="col-7">
+        <div class="q-pa-sm">
+          <h4 class="text-center">Welcome to Bansalan Water District's Helpdesk</h4>
+          <div style="width:300px;" class="q-ma-auto">
+            <q-img src="~assets/headphones.png"></q-img>
+          </div>
+        </div>
+      </div>
+      <div class="col-5">
+
+      </div>
+    </div>
   </q-page>
 </template>
-
-<script setup lang="ts">
-import { Todo, Meta } from 'components/models';
-import ExampleComponent from 'components/ExampleComponent.vue';
-import { ref } from 'vue';
-
-const todos = ref<Todo[]>([
-  {
-    id: 1,
-    content: 'ct1'
-  },
-  {
-    id: 2,
-    content: 'ct2'
-  },
-  {
-    id: 3,
-    content: 'ct3'
-  },
-  {
-    id: 4,
-    content: 'ct4'
-  },
-  {
-    id: 5,
-    content: 'ct5'
-  }
-]);
-const meta = ref<Meta>({
-  totalCount: 1200
-});
-</script>
