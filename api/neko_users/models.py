@@ -69,7 +69,6 @@ class User(AbstractUser, PermissionsMixin, BaseModel):
     )
     street_address = models.CharField(max_length=255, null=True, blank=True)
     purok = models.CharField(max_length=255, null=True, blank=True)
-    poblacion = models.CharField(max_length=255, null=True, blank=True)
     barangay = models.CharField(max_length=255, null=True, blank=True)
     municipality = models.CharField(max_length=255, null=True, blank=True)
     city = models.CharField(max_length=255, null=True, blank=True)
