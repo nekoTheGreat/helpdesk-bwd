@@ -1,11 +1,4 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
-import { SimpleTicketForm } from 'src/types/ticket';
-
-const form = reactive<SimpleTicketForm>({
-    subject: '', description: '', address: '',
-    contact: '', images: [],
-})
 </script>
 <template>
     <q-page class="q-pa-sm">
