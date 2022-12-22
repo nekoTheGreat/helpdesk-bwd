@@ -12,7 +12,8 @@ const form = reactive<SimpleTicketForm>({
 		<div class="row reverse">
 			<q-btn color="primary" text-color="secondary" label="Signup" type="a" :to="{ path: '/register' }"
 				class="q-ml-sm" />
-			<q-btn color="primary" text-color="secondary" label="Login" class="q-ml-sm" />
+			<q-btn color="primary" text-color="secondary" label="Login" class="q-ml-sm" type="a"
+				:to="{ path: '/login' }" />
 		</div>
 		<div class="row">
 			<div class="col-12 col-sm-7">
