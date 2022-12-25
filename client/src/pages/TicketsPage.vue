@@ -1,5 +1,6 @@
 <script setup>
 import { ref, reactive } from 'vue';
+import TicketsFilterForm from 'src/components/TicketsFilterForm.vue';
 
 const rows = ref([
     { id: 112312313, subject: 'jey 1 1231 qwdad qe231312', user: 'Kevin Orge', location: 'at manga street, asda ada dasda ass as dasd asdasdsa dsad as' }
@@ -14,17 +15,39 @@ const columns = [
 const form = reactive({
     term: ''
 });
+const showFilterForm = ref(false);
 
 const onItemClick = () => 1;
 const onSubmitSearch = () => 1;
+const onClickAdvanceSearch = () => showFilterForm.value = true;
+const onSubmitAdvanceSearch = (payload) => {
+    console.log(payload);
+    showFilterForm.value = false;
+}
+const onCancelAdvanceSearch = () => {
+    showFilterForm.value = false;
+}
 </script>
 <template>
-    <q-page class="q-pa-sm">
+    <q-dialog v-model="showFilterForm" :persistent="true">
+        <q-card>
+            <q-card-section>
+                <div class="text-h6">Filters</div>
+            </q-card-section>
+            <q-card-section class="q-pt-none" style="max-height: 80vh; width: 500px; max-width: 80vw;">
+                <TicketsFilterForm @on-submit="onSubmitAdvanceSearch" @on-cancel="onCancelAdvanceSearch">
+                </TicketsFilterForm>
+            </q-card-section>
+        </q-card>
+    </q-dialog>
+    <q-page class=" q-pa-sm">
         <div class="row">
             <q-input type="text" outlined class="col-12 col-sm-8 col-md-6 col-lg-5 q-mb-sm q-pr-sm bg-grey-1" dense
                 label="Search" v-model="form.term" />
-            <q-btn type="button" color="primary" text-color="secondary" class="q-mb-sm" label="Search"
+            <q-btn type="button" color="primary" text-color="secondary" class="q-mb-sm q-mr-sm" label="Search"
                 @click="onSubmitSearch" />
+            <q-btn type="button" color="white" text-color="dark" class="q-mb-sm" label="Filters"
+                @click="onClickAdvanceSearch" />
         </div>
         <div class="row">
             <div class="col-12">
