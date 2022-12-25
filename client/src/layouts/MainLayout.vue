@@ -28,7 +28,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const essentialLinks: EssentialLinkProps[] = [
   {
     title: 'Home',
@@ -38,7 +40,7 @@ const essentialLinks: EssentialLinkProps[] = [
   {
     title: 'Tickets',
     icon: 'confirmation_number',
-    link: '/',
+    link: router.resolve({ path: '/tickets' }).href,
   },
   {
     title: 'Create a Ticket',
