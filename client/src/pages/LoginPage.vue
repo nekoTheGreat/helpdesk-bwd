@@ -42,6 +42,15 @@ const onCancel = () => {
                                 <q-btn type="submit" color="secondary" text-color="primary" label="Login" />
                             </div>
                         </div>
+                        <div class="row q-col-gutter-md">
+                            <div class="col-12 text-center text-secondary q-my-md">
+                                OR
+                            </div>
+                        </div>
+                        <q-btn color="blue-fb" text-color="secondary" label="Login via Facebook" class="q-mb-sm"
+                            style="width:100%" no-caps />
+                        <q-btn color="white" text-color="red-gmail" label="Login via GMail" class="q-mb-sm"
+                            style="width:100%" no-caps />
                     </form>
                 </div>
             </div>
