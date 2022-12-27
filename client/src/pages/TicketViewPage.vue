@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 
 const props = defineProps({
-    id: { type: Number, }
+    id: { default: () => null }
 });
 
 const ticket = ref({
@@ -59,7 +59,8 @@ const imageSlide = ref(1);
                             </q-list>
                         </q-btn-dropdown>
                         <q-separator vertical inset />
-                        <q-btn flat color="dark" label="Edit" icon="edit" />
+                        <q-btn flat color="dark" label="Edit" icon="edit" type="a"
+                            :to="{ name: 'ticket-form', params: { id: ticket.id } }" />
                         <q-separator vertical inset />
                         <q-btn flat color="dark" label="Delete" icon="delete" />
                     </q-card-actions>
