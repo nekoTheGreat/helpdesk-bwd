@@ -45,7 +45,7 @@ const essentialLinks: EssentialLinkProps[] = [
   {
     title: 'Create a Ticket',
     icon: 'add_circle',
-    link: '/',
+    link: router.resolve({ path: '/tickets/new' }).href,
   },
   {
     title: 'Profile',
