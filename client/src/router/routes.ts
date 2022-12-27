@@ -9,8 +9,9 @@ const routes: RouteRecordRaw[] = [
       { path: '/register', component: () => import('pages/RegisterPage.vue')},
       { path: '/login', component: () => import('pages/LoginPage.vue')},
       { path: '/tickets', component: () => import('pages/TicketsPage.vue')},
-      { path: '/tickets/new', component: () => import('pages/TicketPage.vue')},
+      { path: '/tickets/new', component: () => import('pages/TicketFormPage.vue')},
       { path: '/tickets/:id', component: () => import('pages/TicketViewPage.vue'), props: true},
+      { path: '/tickets/:id/edit', component: () => import('pages/TicketFormPage.vue'), props: true},
     ],
   },
 
