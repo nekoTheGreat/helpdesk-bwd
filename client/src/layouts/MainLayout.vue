@@ -2,14 +2,20 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" v-if="auth.isAuthenticated" />
         <q-toolbar-title>
-          Helpdesk
+          <EssentialLink title="Helpdesk" link="/"></EssentialLink>
         </q-toolbar-title>
+        <div v-if="!auth.isAuthenticated">
+          <q-btn color="secondary" text-color="primary" label="Signup" type="a" :to="{ path: '/register' }"
+            class="q-ml-sm" style="width: 80px" />
+          <q-btn color="secondary" text-color="primary" label="Login" class="q-ml-sm" type="a" :to="{ path: '/login' }"
+            style="width: 80px" />
+        </div>
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered v-if="auth.isAuthenticated">
       <q-list>
         <q-item-label header>
           Menu
@@ -29,6 +35,7 @@
 import { ref } from 'vue';
 import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
 import { useRouter } from 'vue-router';
+import { useAuth } from 'src/stores/auth';
 
 const router = useRouter();
 const essentialLinks: EssentialLinkProps[] = [
@@ -64,4 +71,5 @@ const leftDrawerOpen = ref(false)
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
+const auth = useAuth();
 </script>
