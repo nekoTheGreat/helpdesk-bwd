@@ -1,13 +1,14 @@
 import { defineStore } from 'pinia';
+import { useLocalStorage } from '@vueuse/core';
 
 export const useAuth = defineStore('auth', {
   state: () => ({
-    authenticated: false,
-    user: {
+    authenticated: useLocalStorage('bwd.heldesk.authenticated', false),
+    user: useLocalStorage('bwd.heldesk.user', {
       email: '',
       first_name: '',
       last_name: '',
-    }
+    }),
   }),
 
   getters: {
