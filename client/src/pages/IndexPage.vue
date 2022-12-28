@@ -27,16 +27,18 @@ const form = reactive<SimpleTicketForm>({
 				</div>
 			</div>
 			<div class="col-12 col-sm-5">
-				<div class="row q-pt-lg">
-					<div class="col-12 col-sm-9">
-						<div class="q-px-xl q-pt-xl q-pb-lg bg-primary rounded">
+				<div class="row q-pt-lg justify-center">
+					<div class="col-10 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+						<div class="q-px-lg q-pt-lg q-pb-md bg-primary rounded">
 							<form method="POST" @submit.prevent="">
 								<q-input outlined class="q-mb-sm bg-grey-1" v-model="form.subject" label="Title" />
 								<q-input type="textarea" outlined class="q-mb-sm bg-grey-1" v-model="form.description"
 									label="Description" />
 								<q-input type="textarea" outlined class="q-mb-sm bg-grey-1" v-model="form.address"
 									label="Address" />
-								<q-btn color="secondary" text-color="primary" label="Submit Ticket" class="q-mr-auto" />
+								<div class="text-right q-mt-md">
+									<q-btn color="secondary" text-color="primary" label="Submit Ticket" />
+								</div>
 							</form>
 						</div>
 					</div>
