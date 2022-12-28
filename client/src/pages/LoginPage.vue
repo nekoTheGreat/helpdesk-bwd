@@ -1,17 +1,24 @@
 <script setup lang="ts">
+import { AuthService } from 'src/services/AuthService';
 import { reactive } from 'vue';
+import { Loading } from 'quasar';
+import { useRouter } from 'vue-router';
 
-const emit = defineEmits(['on-cancel']);
 const form = reactive({
     email: '',
     password: '',
     remember_me: false,
 });
-const onSubmit = () => {
-    console.log(Object.assign({}, form));
-};
-const onCancel = () => {
-    emit('on-cancel');
+const router = useRouter();
+const onSubmit = async () => {
+    try {
+        Loading.show();
+        const authService = new AuthService();
+        await authService.login(form.email, form.password, form.remember_me);
+        router.replace({ path: '/' });
+    } finally {
+        Loading.hide();
+    }
 };
 </script>
 <template>

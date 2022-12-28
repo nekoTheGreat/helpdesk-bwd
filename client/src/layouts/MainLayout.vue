@@ -62,7 +62,7 @@ const essentialLinks: EssentialLinkProps[] = [
   {
     title: 'Logout',
     icon: 'logout',
-    link: '/',
+    link: router.resolve({ path: '/logout' }).href,
   },
 ];
 
