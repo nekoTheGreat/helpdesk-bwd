@@ -3,8 +3,10 @@ import { ref, reactive, onMounted } from 'vue';
 import TicketsFilterForm from 'src/components/TicketsFilterForm.vue';
 import TicketService from 'src/services/TicketService';
 import { useQuasar } from 'quasar';
+import { useRouter } from 'vue-router';
 
 const quasar = useQuasar();
+const router = useRouter();
 const ticketService = new TicketService();
 const rows = ref([]);
 const columns = ref([]);
@@ -13,7 +15,9 @@ const form = reactive({
 });
 const showFilterForm = ref(false);
 
-const onItemClick = () => 1;
+const onClickView = (data) => {
+    router.replace({ name: 'ticket-view', params: { id: data.row.id } });
+};
 const onSubmitSearch = () => 1;
 const onClickAdvanceSearch = () => showFilterForm.value = true;
 const onSubmitAdvanceSearch = (payload) => {
@@ -62,21 +66,18 @@ onMounted(async () => {
                     :rows-per-page-options="[10, 20, 30, 40, 50]">
                     <template v-slot:body-cell-id="props">
                         <td :props="props">
-                            <a href="#">{{ props.value }}</a>
+                            <router-link :to="{ name: 'ticket-view', params: { id: props.row.id } }">
+                                {{ props.value }}
+                            </router-link>
                         </td>
                     </template>
                     <template v-slot:body-cell-actions="props">
                         <td :props="props">
                             <q-btn-dropdown size="md" label="Actions" padding="5px" flat>
                                 <q-list>
-                                    <q-item clickable v-close-popup @click="onItemClick">
+                                    <q-item clickable v-close-popup @click="onClickView(props)">
                                         <q-item-section>
                                             <q-item-label>View</q-item-label>
-                                        </q-item-section>
-                                    </q-item>
-                                    <q-item clickable v-close-popup @click="onItemClick">
-                                        <q-item-section>
-                                            <q-item-label>Delete</q-item-label>
                                         </q-item-section>
                                     </q-item>
                                 </q-list>
