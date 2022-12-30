@@ -25,4 +25,20 @@ export class AuthService{
             }, 2000);
         });
     }
+
+    async getUserInfo(){
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve(this.auth.user);
+            }, 2000);
+        });
+    }
+    
+    async saveUserInfo(data: any){
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve(data);
+            }, 2000)
+        });
+    }
 }
