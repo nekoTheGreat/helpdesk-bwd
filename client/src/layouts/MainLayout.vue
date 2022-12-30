@@ -57,7 +57,7 @@ const essentialLinks: EssentialLinkProps[] = [
   {
     title: 'Profile',
     icon: 'account_circle',
-    link: '/',
+    link: router.resolve({ path: '/profile' }).href,
   },
   {
     title: 'Logout',
