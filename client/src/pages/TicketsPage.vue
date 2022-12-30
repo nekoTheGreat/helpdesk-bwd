@@ -1,17 +1,13 @@
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import TicketsFilterForm from 'src/components/TicketsFilterForm.vue';
+import TicketService from 'src/services/TicketService';
+import { useQuasar } from 'quasar';
 
-const rows = ref([
-    { id: 112312313, subject: 'jey 1 1231 qwdad qe231312', user: 'Kevin Orge', location: 'at manga street, asda ada dasda ass as dasd asdasdsa dsad as' }
-]);
-const columns = [
-    { name: 'id', field: 'id', label: 'ID', sortable: true, align: 'center', headerStyle: 'width:70px' },
-    { name: 'subject', field: 'subject', label: 'Subject', align: 'left' },
-    { name: 'user', field: 'user', label: 'User', align: 'left', },
-    { name: 'location', field: 'location', label: 'Location', align: 'left' },
-    { name: 'actions', field: 'actions', label: '', align: 'center', headerStyle: 'width:70px' },
-];
+const quasar = useQuasar();
+const ticketService = new TicketService();
+const rows = ref([]);
+const columns = ref([]);
 const form = reactive({
     term: ''
 });
@@ -27,6 +23,17 @@ const onSubmitAdvanceSearch = (payload) => {
 const onCancelAdvanceSearch = () => {
     showFilterForm.value = false;
 }
+
+onMounted(async () => {
+    try {
+        quasar.loading.show();
+        const res = await ticketService.getList();
+        rows.value = res.rows;
+        columns.value = res.columns;
+    } finally {
+        quasar.loading.hide();
+    }
+});
 </script>
 <template>
     <q-dialog v-model="showFilterForm" :persistent="true">
