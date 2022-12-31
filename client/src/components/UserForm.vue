@@ -35,12 +35,6 @@ let rules = {
     municipality: Joi.string(),
     province: Joi.string().empty(false).required(),
 };
-if (props.additionalRequiredFields) {
-    if (props.additionalRequiredFields.includes('password')) {
-        rules.password = Joi.string().required().pattern(new RegExp('^[a-zA-Z0-9]{8,}$'));
-        rules.confirm_password = Joi.ref('password');
-    }
-}
 let validationSchema = Joi.object(rules).messages({
     'any.required': 'Field is required',
     'string.empty': 'Field is required',
@@ -49,6 +43,20 @@ let validationSchema = Joi.object(rules).messages({
 });
 const formValidate = useFormValidate(validationSchema);
 const onSubmit = () => {
+    let updateRules = false;
+    if (form.password) {
+        rules.password = Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{8,}$'));
+        rules.confirm_password = Joi.ref('password');
+        updateRules = true;
+    }
+    if (props.additionalRequiredFields) {
+        if (props.additionalRequiredFields.includes('password')) {
+            rules.password = Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{8,}$')).required();
+            rules.confirm_password = Joi.ref('password');
+            updateRules = true;
+        }
+    }
+    if (updateRules) formValidate.updateValidations(rules);
     const errors = formValidate.validate(Object.assign({}, form));
     if (errors.value.length > 0) {
         emit('on-error', { errors: errors });
