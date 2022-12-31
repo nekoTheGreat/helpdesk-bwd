@@ -1,9 +1,26 @@
-<script setup lang="ts">
-import RegisterForm from 'src/components/RegisterForm.vue';
+<script setup>
+import { useQuasar } from 'quasar';
+import UserForm from 'src/components/UserForm.vue';
+import { AuthService } from 'src/services/AuthService';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-const showForm = ref<boolean>(false);
-const onFormCancel = () => {
+const quasar = useQuasar();
+const router = useRouter();
+const authService = new AuthService();
+const showForm = ref(false);
+const onSubmit = async (payload) => {
+    quasar.loading.show();
+    await authService.saveUserInfo(payload.form);
+    quasar.notify({
+        position: 'top', type: 'positive', message: 'User registered', timeout: 600,
+        onDismiss: () => {
+            router.replace({ path: '/login' });
+            quasar.loading.hide();
+        }
+    });
+}
+const onCancel = () => {
     showForm.value = false;
 }
 </script>
@@ -26,6 +43,8 @@ const onFormCancel = () => {
                 </div>
             </div>
         </div>
-        <RegisterForm v-else @on-cancel="onFormCancel"></RegisterForm>
+        <UserForm v-else title="Register" :additional-required-fields="['password']" @on-submit="onSubmit"
+            @on-cancel="onCancel">
+        </UserForm>
     </q-page>
 </template>
