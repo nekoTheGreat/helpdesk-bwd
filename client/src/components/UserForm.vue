@@ -24,8 +24,7 @@ const form = reactive({
     province: '',
     contact_number: '',
 });
-
-const validationSchema = Joi.object({
+let rules = {
     email: Joi.string().empty(false).email({ tlds: { allow: false } }).required(),
     first_name: Joi.string().empty(false).required(),
     last_name: Joi.string().empty(false).required(),
@@ -35,17 +34,19 @@ const validationSchema = Joi.object({
     city: Joi.string(),
     municipality: Joi.string(),
     province: Joi.string().empty(false).required(),
-}).or('city', 'municipality')
-    .messages({
-        'any.required': 'Field is required',
-        'string.empty': 'Field is required',
-    })
-if (props.additionalRequiredFields.includes(['password'])) {
-    validationSchema.keys({
-        password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{8,30}$')).label('Password'),
-        confirm_password: Joi.ref('password').label('Confirm Password'),
-    });
+};
+if (props.additionalRequiredFields) {
+    if (props.additionalRequiredFields.includes('password')) {
+        rules.password = Joi.string().required().pattern(new RegExp('^[a-zA-Z0-9]{8,}$'));
+        rules.confirm_password = Joi.ref('password');
+    }
 }
+let validationSchema = Joi.object(rules).messages({
+    'any.required': 'Field is required',
+    'string.empty': 'Field is required',
+    'string.pattern.base': 'Should be at least 8 alphanumeric characters',
+    'any.only': 'Should be the same value of Password',
+});
 const formValidate = useFormValidate(validationSchema);
 const onSubmit = () => {
     const errors = formValidate.validate(Object.assign({}, form));
