@@ -2,9 +2,7 @@ import Joi from 'joi';
 import { ref } from 'vue';
 
 export function useFormValidate(validationSchema){
-    let schema = validationSchema;
-    if(!Joi.isSchema(validationSchema)) schema = Joi.object(validationSchema);
-
+    let schema;
     const errors = ref([]);
 
     const validate = (data, config) => {
@@ -29,5 +27,20 @@ export function useFormValidate(validationSchema){
         return getFieldError(field) != null;
     }
 
-    return { validate, isFieldInvalid, getFieldError, getFieldErrors };
+    const updateValidations = (rules) => {
+        if(Joi.isSchema(rules)){
+            schema = rules;
+        }else{
+            if(schema){
+                schema = schema.keys(rules);
+            }else{
+                schema = Joi.object(rules);
+            }  
+        } 
+        return schema;
+    }
+
+    updateValidations(validationSchema);
+
+    return { validate, isFieldInvalid, getFieldError, getFieldErrors, updateValidations };
 } 
