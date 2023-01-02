@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { AuthService } from 'src/services/AuthService';
 import { reactive } from 'vue';
-import { Loading } from 'quasar';
+import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 
 const form = reactive({
@@ -10,14 +10,18 @@ const form = reactive({
     remember_me: false,
 });
 const router = useRouter();
+const quasar = useQuasar();
 const onSubmit = async () => {
     try {
-        Loading.show();
+        quasar.loading.show();
         const authService = new AuthService();
         await authService.login(form.email, form.password, form.remember_me);
         router.replace({ path: '/' });
+    } catch (e: any) {
+        let message = typeof (e) == 'object' && e.hasOwnProperty('message') ? e.message : 'Unknown Error';
+        quasar.notify({ type: 'negative', message: message });
     } finally {
-        Loading.hide();
+        quasar.loading.hide();
     }
 };
 </script>
