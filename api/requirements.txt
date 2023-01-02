@@ -3,3 +3,4 @@ djangorestframework>=3.9
 markdown>=3.0
 python-dotenv>=0.2
 django-rest-knox
+django-cors-headers
