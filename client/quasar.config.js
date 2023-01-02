@@ -12,7 +12,7 @@
 const { configure } = require('quasar/wrappers');
 const path = require('path');
 
-module.exports = configure(function (/* ctx */) {
+module.exports = configure(function (ctx) {
   return {
     eslint: {
       // fix: true,
@@ -69,7 +69,9 @@ module.exports = configure(function (/* ctx */) {
 
       // publicPath: '/',
       // analyze: true,
-      // env: {},
+      env: {
+        API_URL: ctx.prod ? 'http://helpdesk-bwd.kevinorge.com/api' : 'http://127.0.0.1:8000/api',
+      },
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,
