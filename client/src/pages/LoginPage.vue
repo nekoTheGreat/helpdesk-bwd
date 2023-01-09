@@ -18,7 +18,8 @@ const onSubmit = async () => {
         await authService.login(form.email, form.password, form.remember_me);
         router.replace({ path: '/' });
     } catch (e: any) {
-        quasar.notify({ type: 'negative', message: e.message });
+        let message = typeof (e) == 'object' && e.hasOwnProperty('message') ? e.message : 'Unknown Error';
+        quasar.notify({ type: 'negative', message: message });
     } finally {
         quasar.loading.hide();
     }
