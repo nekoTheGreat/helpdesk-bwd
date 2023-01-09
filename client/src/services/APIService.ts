@@ -5,11 +5,9 @@ import { ErrorResponse } from 'src/types/common';
 export class APIService
 {
     basepath: string;
-    token: string;
 
     constructor(basepath?: string){
         this.basepath = basepath ?? '';
-        this.token = '';
     }
 
     private generateFullUrl(url: string){
@@ -21,23 +19,15 @@ export class APIService
         return tokens.join('');
     }
 
-    setAuthToken(token: string){
-        this.token = token;
-    }
-
     async request(url: string, method: string, payload?: any){
         const config: AxiosRequestConfig = {
             url: this.generateFullUrl(url),
             method: method as Method,
             params: undefined as any[] | undefined,
             data: undefined as any[] | undefined,
-            headers: {}
         }
         if(method == 'GET') config.params = payload;
         else config.data = payload;
-        if(this.token){
-            config.headers['Authorization'] = 'Bearer '+this.token;
-        }
 
         return new Promise((resolve, reject) => {
             api.request(config).then((resp) => {
