@@ -33,11 +33,8 @@ export class AuthService{
     }
 
     async getUserInfo(){
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve(this.auth.user);
-            }, 2000);
-        });
+        if(!this.auth.isAuthenticated) return Promise.reject({message: 'Not authorized'});
+        
     }
     
     async saveUserInfo(data: any){
