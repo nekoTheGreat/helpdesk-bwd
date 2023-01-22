@@ -69,9 +69,7 @@ module.exports = configure(function (ctx) {
 
       // publicPath: '/',
       // analyze: true,
-      env: {
-        API_URL: ctx.prod ? 'http://helpdesk-bwd.kevinorge.com/api' : 'http://127.0.0.1:8000/api',
-      },
+      env: require('dotenv').config().parsed,
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,
