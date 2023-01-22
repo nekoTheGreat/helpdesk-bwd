@@ -14,7 +14,7 @@ export class AuthService{
 
     constructor(){
         this.auth = useAuth();
-        this.api = new APIService(window.process.env.API_URL);
+        this.api = new APIService();
     }
 
     async login(email: string, password: string, rememberMe = false){
