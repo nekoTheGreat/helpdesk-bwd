@@ -1,17 +1,16 @@
 import { defineStore } from 'pinia';
-import { useLocalStorage, useSessionStorage } from '@vueuse/core';
 import { LocalStorage, SessionStorage } from 'quasar';
 
 const TOKEN_STORAGE_KEY = 'bwd.heldesk.token';
 
 export const useAuth = defineStore('auth', {
   state: () => ({
-    token: useLocalStorage(TOKEN_STORAGE_KEY, ''),
-    user: useLocalStorage('bwd.heldesk.user', {
+    token: '',
+    user: {
       email: '',
       first_name: '',
       last_name: '',
-    }),
+    },
   }),
 
   getters: {
