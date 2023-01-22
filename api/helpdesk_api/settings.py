@@ -28,13 +28,16 @@ load_dotenv(env_path)
 SECRET_KEY = 'django-insecure-t6b^7ly2qm7o7^#iok70_1^gq7yzk703t*@!24rcmdt=o%jjw7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 ALLOWED_HOSTS = []
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:9000", "http://127.0.0.1:9000",
-]
+if os.environ.get("ALLOWED_HOSTS") != None:
+    ALLOWED_HOSTS = ALLOWED_HOSTS + os.environ.get("ALLOWED_HOSTS").split(",")
+CORS_ALLOWED_ORIGINS = []
+if os.environ.get("ALLOWED_ORIGINS") != None:
+    CORS_ALLOWED_ORIGINS = CORS_ALLOWED_ORIGINS + os.environ.get("ALLOWED_ORIGINS").split(",")
+if len(ALLOWED_HOSTS) == 0:
+    DEBUG = True
+else:
+    DEBUG = os.environ.get("DEBUG")
 
 AUTH_USER_MODEL = "neko_users.User"
 
