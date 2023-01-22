@@ -112,7 +112,7 @@ module.exports = configure(function (ctx) {
 
       // Quasar plugins
       plugins: [
-        'Loading', 'Notify',
+        'Loading', 'Notify', 'LocalStorage', 'SessionStorage',
       ]
     },
 
