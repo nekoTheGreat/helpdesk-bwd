@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { useLocalStorage, useSessionStorage } from '@vueuse/core';
+import { LocalStorage, SessionStorage } from 'quasar';
 
 const TOKEN_STORAGE_KEY = 'bwd.heldesk.token';
 
@@ -15,7 +16,9 @@ export const useAuth = defineStore('auth', {
 
   getters: {
     isAuthenticated(state){
-      return state.token != '';
+      return state.token != '' ||
+        LocalStorage.getItem(TOKEN_STORAGE_KEY) ||
+        SessionStorage.getItem(TOKEN_STORAGE_KEY)
     },
     userEmail(state){
       return state.user.email;
@@ -31,17 +34,18 @@ export const useAuth = defineStore('auth', {
       this.user.first_name = data.first_name;
       this.user.last_name = data.last_name;
       this.token = data.token;
+      LocalStorage.remove(TOKEN_STORAGE_KEY);
       if(rememberMe){
-        useLocalStorage(TOKEN_STORAGE_KEY, data.token);
-        sessionStorage.removeItem(TOKEN_STORAGE_KEY);
+        LocalStorage.set(TOKEN_STORAGE_KEY, data.token);
       }else{
-        localStorage.removeItem(TOKEN_STORAGE_KEY);
-        useSessionStorage(TOKEN_STORAGE_KEY, data.token);
+        SessionStorage.set(TOKEN_STORAGE_KEY, data.token);
       }
     },
     loggedOut(){
       this.user.email = this.user.first_name = this.user.last_name = '';
       this.token = '';
-    }
+      LocalStorage.remove(TOKEN_STORAGE_KEY);
+      SessionStorage.remove(TOKEN_STORAGE_KEY);
+    },
   }
 });
