@@ -43,7 +43,7 @@ class NekoUserManager(UserManager):
         return self._create_user(email, password, **extra_fields)
 
 
-class User(AbstractUser, PermissionsMixin, BaseModel):
+class User(AbstractUser, BaseModel):
     username = None
     first_name = models.CharField(_("first name"), max_length=150, blank=True)
     last_name = models.CharField(_("last name"), max_length=150, blank=True)
