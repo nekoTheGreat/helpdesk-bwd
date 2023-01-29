@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  server:
+    container_name: "server"
+    build:
+      context: ./
+    ports:
+      - 80:80
+    extra_hosts:
+      - bwd.local:127.0.0.1
+      - api.bwd.local:127.0.0.1
+    volumes:
+      - D:/Projects/my-projects/helpdesk/final/api:/var/www/bwd/api
+      - D:/Projects/my-projects/helpdesk/final/nuxt:/var/www/bwd/client
+    depends_on:
+      - db
+  db:
+    container_name: "db"
+    image: mariadb:10.2
+    command: --max_allowed_packet=524288000 --sql_mode=""
+    ports:
+      - 3307:3306
+    volumes:
+      - db:/var/lib/mysql
+      - ./docker/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      TZ: "UTC"
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+volumes:
+  db:
+    driver: local
