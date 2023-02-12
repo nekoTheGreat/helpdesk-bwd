@@ -1,6 +1,8 @@
 <script setup lang="ts">;
 import { Collapse } from 'bootstrap/dist/js/bootstrap.esm.js';
+import { useAuthStore } from '~~/stores/authStore';
 
+const authStore = useAuthStore();
 onMounted(() => {
     new Collapse('#mainNavBarDropdown');
 });
@@ -23,13 +25,15 @@ onMounted(() => {
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
-                    <li>
-                        <a class="nav-link">Login</a>
-                    </li>
-                    <li>
-                        <a class="nav-link">Signup</a>
-                    </li>
-                    <li class="nav-item dropdown">
+                    <template v-if="!authStore.authenticated">
+                        <li>
+                            <a class="nav-link">Login</a>
+                        </li>
+                        <li>
+                            <a class="nav-link">Signup</a>
+                        </li>
+                    </template>
+                    <li class="nav-item dropdown" v-else>
                         <a class="nav-link dropdown-toggle" href="#" id="mainNavBarAccountDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             Account
