@@ -1,0 +1,1 @@
+export const usePageLayout = () => useState('pageLayout', () => 'guest');
