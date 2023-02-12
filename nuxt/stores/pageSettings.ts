@@ -1,1 +1,1 @@
-export const usePageLayout = () => useState('pageLayout', () => 'guest');
+export const usePageLayout = () => useState('pageLayout', () => 'default');

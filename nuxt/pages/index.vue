@@ -9,15 +9,7 @@ const subjects = [
 ];
 </script>
 <template>
-    <div class="row mt-1 mb-3">
-        <div class="col-12 d-flex">
-            <div class="ms-auto">
-                <a class="btn btn-primary me-2" href="/login">Login</a>
-                <a class="btn btn-primary" href="/signup">Sign up</a>
-            </div>
-        </div>
-    </div>
-    <div class="container">
+    <div class="container mb-3">
         <div class="row">
             <div class="col-12 col-md-7 col-lg-6 mb-3">
                 <div class="d-flex flex-column justify-content-center align-items-center">
