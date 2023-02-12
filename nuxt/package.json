@@ -11,7 +11,9 @@
     "nuxt": "^3.0.0"
   },
   "dependencies": {
+    "@pinia/nuxt": "^0.4.6",
     "bootstrap": "^5.2.3",
+    "pinia": "^2.0.30",
     "sass": "^1.57.1"
   }
 }
