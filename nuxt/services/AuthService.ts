@@ -14,4 +14,8 @@ export default class AuthService{
         const resp = await request(this.login_url, "POST", {email: email, password: password});
         this.authStore.loggedIn(resp.data.token);
     }
+
+    async logout(){
+        this.authStore.loggedOut();
+    }
 }
