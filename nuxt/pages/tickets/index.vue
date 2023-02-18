@@ -11,6 +11,9 @@ onMounted(async () => {
 </script>
 <template>
     <div class="container">
+        <div class="d-flex justify-content-end mb-2">
+            <NuxtLink class="btn btn-primary" to="/tickets/new">Create Ticket</NuxtLink>
+        </div>
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -26,7 +29,9 @@ onMounted(async () => {
                     <td colspan="5" class="text-center">No records found</td>
                 </tr>
                 <tr v-for="ticket in tickets" :key="ticket.id">
-                    <td scope="row">{{ ticket.id }}</td>
+                    <td scope="row">
+                        <NuxtLink :to="'/tickets/' + ticket.id">{{ ticket.id }}</NuxtLink>
+                    </td>
                     <td>{{ ticket.subject }}</td>
                     <td>{{ ticket.description }}</td>
                     <td>{{ fullAddressFromTicket(ticket) }}</td>
