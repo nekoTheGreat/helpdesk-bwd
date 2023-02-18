@@ -1,6 +1,45 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import TicketService from '~~/services/TicketService';
+
+const tickets = ref([]);
+const ticketService = new TicketService();
+const generateAddress = (ticket) => {
+    let tokens = [];
+    for (const [k, v] of Object.entries(ticket)) {
+        if (['street_address', 'purok', 'barangay', 'municipality'].includes(k))
+            if (v) tokens.push(v);
+    }
+    return tokens.join(',');
+};
+onMounted(async () => {
+    const resp = await ticketService.list();
+    tickets.value = resp.data.results;
+});
+</script>
 <template>
     <div class="container">
-        Tickets
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Subject</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-if="tickets.length == 0">
+                    <td colspan="5" class="text-center">No records found</td>
+                </tr>
+                <tr v-for="ticket in tickets" :key="ticket.id">
+                    <td scope="row">{{ ticket.id }}</td>
+                    <td>{{ ticket.subject }}</td>
+                    <td>{{ ticket.description }}</td>
+                    <td>{{ generateAddress(ticket) }}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </template>
