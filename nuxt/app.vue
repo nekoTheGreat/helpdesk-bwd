@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import '~~/node_modules/bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/scss/bootstrap.scss';
 import '~/assets/css/app.scss';
 import { usePageLayout } from './stores/pageSettings';
 
