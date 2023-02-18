@@ -10,7 +10,7 @@ export default class AuthService{
         this.login_url = config.public.api_url+"/auth/login/";
     }
 
-    async login(email: string, password: string, remember: boolean = true){
+    async login(email: string, password: string){
         const resp = await request(this.login_url, "POST", {email: email, password: password});
         this.authStore.loggedIn(resp.data.token);
     }

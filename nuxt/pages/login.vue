@@ -1,6 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+</script>
 <template>
-    <div class="container">
-        Login
+    <div class="row justify-content-center">
+        <LoginForm></LoginForm>
     </div>
 </template>
