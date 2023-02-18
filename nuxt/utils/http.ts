@@ -47,7 +47,7 @@ export async function request(url: string, method: string = "GET", payload?: Dic
     }
     try{
         const resp = await axios(config);
-        const data = resp.data.data;
+        const data = resp.data;
         return Promise.resolve({data: Object.assign({}, data), status: resp.status});
     }catch(e){
         const axiosErr = e as AxiosError;

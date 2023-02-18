@@ -11,7 +11,7 @@ export default class AuthService{
     }
 
     async login(email: string, password: string, remember: boolean = true){
-        const data = await request(this.login_url, "POST", {email: email, password: password});
-        this.authStore.loggedIn(data.token);
+        const resp = await request(this.login_url, "POST", {email: email, password: password});
+        this.authStore.loggedIn(resp.data.token);
     }
 }
