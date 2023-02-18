@@ -1,4 +1,5 @@
 import { Dict } from "~~/utils/datastructures"
+import axios, { AxiosError } from 'axios';
 
 export function http_build_query(data: Dict) : string{
     let items: string[] = [];
@@ -27,10 +28,12 @@ export function toFormData(data: Dict): FormData{
 export async function request(url: string, method: string = "GET", payload?: Dict, headers?: Dict)
 {
     let config = {
+        url: url,
         method: method, 
         body: null,
         headers: {
             "Content-Type": "application/json",
+            "Accept": "application/json",
         }
     } as UseFetchOptions;
     if(headers){
@@ -56,15 +59,13 @@ export async function request(url: string, method: string = "GET", payload?: Dic
         }
         config.body = payload;
     }
-    let status = 200;
     try{
-        const { data, error } = await useFetch(url, config);
-        if(error.value){
-            status = error.value?.statusCode as number;
-            throw error.value?.statusMessage;
-        }
-        return Promise.resolve({data: Object.assign({}, data.value), status: status});
+        const resp = await axios(config);
+        const data = resp.data;
+        return Promise.resolve({data: Object.assign({}, data), status: resp.status});
     }catch(e){
-        return Promise.reject({error: e, status: status});
+        const axiosErr = e as AxiosError;
+        let message = axiosErr.response?.data ?axiosErr.response.data : axiosErr.message;
+        return Promise.reject({error: message, status: axiosErr.status});
     }
 }
