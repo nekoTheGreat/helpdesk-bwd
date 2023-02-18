@@ -1,6 +1,7 @@
 import { Dict } from "~~/types/datastructures"
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import { ApiError } from "~~/types/api";
+import { useAuthStore } from "~~/stores/authStore";
 
 export function http_build_query(data: Dict) : string{
     let items: string[] = [];
@@ -40,6 +41,7 @@ export async function request(url: string, method: string = "GET", payload?: Dic
     if(headers){
         config.headers = Object.assign(config.headers, headers);
     }
+    config.headers = Object.assign(config.headers, getAuthTokenHeader());
     if(method.toLocaleLowerCase() == 'GET'){
         config.params = payload;
     }else{
@@ -66,4 +68,12 @@ export async function request(url: string, method: string = "GET", payload?: Dic
         }
         return Promise.reject(payload);
     }
+}
+export function getAuthTokenHeader(){
+    const headers = {} as Dict;
+    const authStore = useAuthStore();
+    if(authStore.authenticated){
+        headers['Authorization'] = "Token "+authStore.token;
+    }
+    return headers;
 }
