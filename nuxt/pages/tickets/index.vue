@@ -1,16 +1,9 @@
 <script setup lang="ts">
 import TicketService from '~~/services/TicketService';
+import { fullAddressFromTicket } from '~~/utils/misc';
 
 const tickets = ref([]);
 const ticketService = new TicketService();
-const generateAddress = (ticket) => {
-    let tokens = [];
-    for (const [k, v] of Object.entries(ticket)) {
-        if (['street_address', 'purok', 'barangay', 'municipality'].includes(k))
-            if (v) tokens.push(v);
-    }
-    return tokens.join(',');
-};
 onMounted(async () => {
     const resp = await ticketService.list();
     tickets.value = resp.data.results;
@@ -36,7 +29,7 @@ onMounted(async () => {
                     <td scope="row">{{ ticket.id }}</td>
                     <td>{{ ticket.subject }}</td>
                     <td>{{ ticket.description }}</td>
-                    <td>{{ generateAddress(ticket) }}</td>
+                    <td>{{ fullAddressFromTicket(ticket) }}</td>
                     <td></td>
                 </tr>
             </tbody>
