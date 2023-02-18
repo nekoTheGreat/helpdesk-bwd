@@ -10,4 +10,8 @@ export default class TicketService{
     async list(filters?: Dict){
         return await request(this.api_url, "GET");
     }
+    
+    async find(id: number){
+        return await request(`${this.api_url}${id}`);
+    }
 }
