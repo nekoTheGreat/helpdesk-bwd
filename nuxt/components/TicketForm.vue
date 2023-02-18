@@ -1,0 +1,89 @@
+<script setup lang="ts">
+import { Ticket } from '~~/types/api';
+import { fullAddressFromTicket } from '~~/utils/misc';
+
+interface Props {
+    ticket?: Ticket,
+}
+const props = defineProps<Props>();
+const formLegend = computed(() => props.ticket ? `#${ticket.id} Ticket Update` : 'New Ticket');
+const form = {
+    id: 0,
+    subject: 'General',
+    description: '',
+    street_address: '',
+    purok: '',
+    barangay: '',
+    municipality: '',
+    user: 0,
+    photos: [],
+};
+const onSubmit = () => {
+
+};
+</script>
+<template>
+    <div class="row d-flex justify-content-center">
+        <div class="col-12 col-md-10 col-lg-7">
+            <div class="card p-3 shadow">
+                <div class="card-body">
+                    <h5 class="card-title">{{ formLegend }}</h5>
+                    <hr />
+                    <form method="POST" @submit.prevent="onSubmit">
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">Subject:</label>
+                            <select v-model="form.subject" class="form-select" id="subject"></select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description:</label>
+                            <textarea v-model="form.description" class="form-control" id="description" rows="4"></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <label class="checkbox mb-3" for="user_address">
+                                    <input type="checkbox" /> Use my address
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-7">
+                                <div class="mb-3">
+                                    <label for="street_address" class="form-label">Street Address:</label>
+                                    <input v-model="form.street_address" type="text" class="form-control"
+                                        id="street_address" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-5">
+                                <div class="mb-3">
+                                    <label for="purok" class="form-label">Purok:</label>
+                                    <input v-model="form.purok" type="text" class="form-control" id="purok" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="mb-3">
+                                    <label for="barangay" class="form-label">Barangay:</label>
+                                    <select v-model="form.barangay" class="form-select" id="barangay"></select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="mb-3">
+                                    <label for="municipality" class="form-label">Municipality:</label>
+                                    <select v-model="form.municipality" class="form-select" id="municipality"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <p>Upload images here</p>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-end">
+                                <button class="btn btn-primary me-2" style="width:75px;">Save</button>
+                                <button class="btn btn-outline-dark" style="width:75px;">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
