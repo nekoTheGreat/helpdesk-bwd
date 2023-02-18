@@ -1,5 +1,6 @@
-import { Dict } from "~~/utils/datastructures"
-import axios, { AxiosError } from 'axios';
+import { Dict } from "~~/types/datastructures"
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import { ApiError } from "~~/types/api";
 
 export function http_build_query(data: Dict) : string{
     let items: string[] = [];
@@ -35,29 +36,14 @@ export async function request(url: string, method: string = "GET", payload?: Dic
             "Content-Type": "application/json",
             "Accept": "application/json",
         }
-    } as UseFetchOptions;
+    } as AxiosRequestConfig;
     if(headers){
         config.headers = Object.assign(config.headers, headers);
     }
     if(method.toLocaleLowerCase() == 'GET'){
-        if(typeof payload == 'object') url += "?" + http_build_query(payload);
-        else if(typeof payload == 'string') url += "?" + payload;
+        config.params = payload;
     }else{
-        for(var prop in headers){
-            var _prop = prop.toLowerCase();
-            var val = headers[prop];
-            if(_prop == 'content-type'){
-                const _val = val.toLowerCase();
-                if(typeof payload == "object"){
-                    if(_val != "application/json"){
-                        config.body = toFormData(payload);
-                    }else{
-                        config.body = JSON.stringify(payload);
-                    }
-                }
-            }
-        }
-        config.body = payload;
+        config.data = payload;
     }
     try{
         const resp = await axios(config);
@@ -65,7 +51,19 @@ export async function request(url: string, method: string = "GET", payload?: Dic
         return Promise.resolve({data: Object.assign({}, data), status: resp.status});
     }catch(e){
         const axiosErr = e as AxiosError;
-        let message = axiosErr.response?.data ?axiosErr.response.data : axiosErr.message;
-        return Promise.reject({error: message, status: axiosErr.status});
+        const data = axiosErr.response?.data ?axiosErr.response.data : axiosErr.message;
+        let payload = { message: "", errors: [], status: 500};
+        if(typeof(data) == 'string') payload.message = data;
+        else if(typeof(data) == 'object' && data.hasOwnProperty('errors')){
+            const apiData = data as ApiError;
+            let messages = [] as string[];
+            if(apiData.errors) for(const [k, v] of Object.entries(apiData.errors)){
+                messages.push(v);
+            }
+            payload.message = messages.join(' ');
+            payload.errors = apiData.errors;
+            payload.status = apiData.status_code;
+        }
+        return Promise.reject(payload);
     }
 }
