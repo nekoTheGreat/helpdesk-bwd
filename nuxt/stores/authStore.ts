@@ -1,9 +1,10 @@
 import { defineStore } from "pinia";
+import { useLocalStorage} from '@vueuse/core';
 
 export const useAuthStore = defineStore('auth', {
     state: () => {
         return {
-            token: '',
+            token: useLocalStorage<string>('token', ''),
         }
     },
     getters: {
