@@ -1,3 +1,6 @@
+import { useAuthStore } from "~~/stores/authStore";
+
 export default defineNuxtRouteMiddleware((to, from) => {
-    console.log('installed auth middleware globally');
+    const authStore = useAuthStore();
+    if(to.path == "/login" && authStore.authenticated) return navigateTo("/");
 });
