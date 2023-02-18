@@ -1,17 +1,12 @@
 <script setup lang="ts">
-import TicketService from '~~/services/TicketService';
+import { Ticket } from '~~/types/api';
 import { fullAddressFromTicket } from '~~/utils/misc';
 
 interface Props {
-    id: number,
+    ticket: Ticket,
 }
 const props = defineProps<Props>();
-const ticket = ref(null);
-const ticketService = new TicketService();
-onMounted(async () => {
-    const resp = await ticketService.find(props.id);
-    ticket.value = resp.data;
-});
+const { ticket } = toRefs(props);
 </script>
 <template>
     <div class="row d-flex justify-content-center" v-if="ticket">
