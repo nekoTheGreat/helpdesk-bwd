@@ -1,12 +1,11 @@
 <script setup lang="ts">
+import { subjectOptions } from '~~/stores/options';
+
 const form = reactive({
     subject: '',
     description: '',
     address: '',
 });
-const subjects = [
-    'Bills', 'General', 'No Water', 'Water Disconnection',
-];
 </script>
 <template>
     <div class="container mb-3">
@@ -28,7 +27,7 @@ const subjects = [
                         <div class="col-12 pb-1">
                             <label for="subject" class="form-label">Subject</label>
                             <select class="form-select">
-                                <option v-for="item in subjects" :value="item">{{ item }}</option>
+                                <option v-for="item in subjectOptions" :value="item">{{ item }}</option>
                             </select>
                         </div>
                         <div class="col-12 pb-1">
