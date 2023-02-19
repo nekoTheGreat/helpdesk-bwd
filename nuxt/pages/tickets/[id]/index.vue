@@ -6,8 +6,12 @@ const id = route.params.id * 1;
 const ticketService = new TicketService();
 const ticket = ref(null)
 onMounted(async () => {
-    const resp = await ticketService.find(id);
-    ticket.value = resp.data;
+    try {
+        const resp = await ticketService.find(id);
+        ticket.value = resp.data;
+    } catch (e) {
+        throw createError({ statusCode: e.status, statusMessage: e.message, fatal: true });
+    }
 });
 </script>
 <template>
