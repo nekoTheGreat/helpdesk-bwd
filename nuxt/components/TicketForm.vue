@@ -28,7 +28,6 @@ const init = () => {
                 form.value[k] = props.ticket[k] ?? defval;
             }
         }
-        console.log(form.value);
     }
 };
 const onSubmit = () => {
