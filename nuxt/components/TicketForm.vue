@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Ticket } from '~~/types/api';
-import { fullAddressFromTicket } from '~~/utils/misc';
+import FileInput from './inputs/FileInput.vue';
 
 interface Props {
     ticket?: Ticket,
@@ -73,7 +73,10 @@ const onSubmit = () => {
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <p>Upload images here</p>
+                            <div class="mb-3">
+                                <label for="photos" class="form-label">Photos:</label>
+                                <FileInput v-model="form.photos" multiple></FileInput>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-12 d-flex justify-content-end">
