@@ -32,7 +32,7 @@ const init = () => {
     }
 };
 const onSubmit = () => {
-    emit('update:modelValue', Object.assign({}, form));
+    emit('update:modelValue', Object.assign({}, form.value));
 };
 const ticketWatch = watch(() => props.ticket, () => init());
 onDeactivated(() => {
