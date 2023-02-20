@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Ticket } from '~~/types/api';
 import FileInput from './inputs/FileInput.vue';
+import { subjectOptions, barangayOptions, municipalityOptions } from '~~/stores/options';
 
 interface Props {
     ticket?: Ticket,
@@ -32,11 +33,14 @@ const onSubmit = () => {
                     <form method="POST" @submit.prevent="onSubmit">
                         <div class="mb-3">
                             <label for="subject" class="form-label">Subject:</label>
-                            <select v-model="form.subject" class="form-select" id="subject"></select>
+                            <select v-model="form.subject" class="form-select" id="subject" required>
+                                <option v-for="subject in subjectOptions" :value="subject">{{ subject }}</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Description:</label>
-                            <textarea v-model="form.description" class="form-control" id="description" rows="4"></textarea>
+                            <textarea v-model="form.description" class="form-control" id="description" rows="4"
+                                required></textarea>
                         </div>
                         <div class="row">
                             <div class="col-12">
@@ -50,25 +54,31 @@ const onSubmit = () => {
                                 <div class="mb-3">
                                     <label for="street_address" class="form-label">Street Address:</label>
                                     <input v-model="form.street_address" type="text" class="form-control"
-                                        id="street_address" />
+                                        id="street_address" required />
                                 </div>
                             </div>
                             <div class="col-12 col-sm-5">
                                 <div class="mb-3">
                                     <label for="purok" class="form-label">Purok:</label>
-                                    <input v-model="form.purok" type="text" class="form-control" id="purok" />
+                                    <input v-model="form.purok" type="text" class="form-control" id="purok" required />
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="mb-3">
                                     <label for="barangay" class="form-label">Barangay:</label>
-                                    <select v-model="form.barangay" class="form-select" id="barangay"></select>
+                                    <select v-model="form.barangay" class="form-select" id="barangay" required>
+                                        <option value="">Select</option>
+                                        <option v-for="item in barangayOptions.Bansalan" :value="item">{{ item }}</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="mb-3">
                                     <label for="municipality" class="form-label">Municipality:</label>
-                                    <select v-model="form.municipality" class="form-select" id="municipality"></select>
+                                    <select v-model="form.municipality" class="form-select" id="municipality" required>
+                                        <option value="">Select</option>
+                                        <option v-for="item in municipalityOptions" :value="item">{{ item }}</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
