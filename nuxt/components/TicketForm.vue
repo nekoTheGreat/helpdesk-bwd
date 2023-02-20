@@ -7,8 +7,9 @@ interface Props {
     ticket?: Ticket,
 }
 const props = defineProps<Props>();
-const formLegend = computed(() => props.ticket ? `#${ticket.id} Ticket Update` : 'New Ticket');
-const form = {
+const emit = defineEmits(['update:modelValue']);
+const formLegend = computed(() => props.ticket ? `#${props.ticket.id} Ticket Update` : 'New Ticket');
+const form = ref<Ticket>({
     id: 0,
     subject: 'General',
     description: '',
@@ -18,10 +19,25 @@ const form = {
     municipality: '',
     user: 0,
     photos: [],
+});
+const init = () => {
+    if (props.ticket) {
+        for (const [k, v] of Object.entries(form.value)) {
+            if (Object.keys(props.ticket).includes(k)) {
+                const defval = k == 'photos' ? [] : '';
+                form.value[k] = props.ticket[k] ?? defval;
+            }
+        }
+        console.log(form.value);
+    }
 };
 const onSubmit = () => {
-
+    emit('update:modelValue', Object.assign({}, form));
 };
+const ticketWatch = watch(() => props.ticket, () => init());
+onDeactivated(() => {
+    ticketWatch();
+});
 </script>
 <template>
     <div class="row d-flex justify-content-center">
