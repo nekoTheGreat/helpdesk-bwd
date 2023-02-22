@@ -17,6 +17,9 @@ from django.contrib import admin
 from django.urls import path, include
 from neko_users.views import CustomKnoxLoginView
 from knox.views import LogoutView, LogoutAllView
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/login/', CustomKnoxLoginView.as_view(), name='auth_login'),
@@ -24,4 +27,4 @@ urlpatterns = [
     path('api/auth/logout-all/', LogoutAllView.as_view(), name="auth_logout_all"),
     path('api/tickets/', include('tickets.urls')),
     path('api/users/', include('neko_users.urls')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
