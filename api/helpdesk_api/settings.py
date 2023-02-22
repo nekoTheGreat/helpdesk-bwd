@@ -74,7 +74,7 @@ ROOT_URLCONF = 'helpdesk_api.urls'
 ATTACHMENTS_DIR = os.environ.get("ATTACHMENTS_DIR")
 ATTACHMENT_MAX_SIZE = 5242880 # 5mb
 MEDIA_ROOT = ATTACHMENTS_DIR
-MEDIA_URL = APP_URL + 'attachments/'
+MEDIA_URL = '/attachments/'
 
 TEMPLATES = [
     {
