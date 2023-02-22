@@ -15,7 +15,8 @@ def save_ticket(data, id: int = None):
     return serializer.data
 
 def add_attachment(ticket, data):
-    obj = Attachment(**data)
+    defaults = {"disk_type": 'local'}
+    obj = Attachment({**defaults, **data})
     obj.type = 'ticket_images'
     obj.identifier = ticket.get('id')
     obj.save()
