@@ -1,4 +1,6 @@
 from django.db import models
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
 
 class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -21,6 +23,9 @@ class Attachment(BaseModel):
 
     @property
     def url(self):
-        if self.disk_type == 'local':
-            return 'https://google.com/{}'.format(self.unique_file_name)
-        return 'https://any-cloud.com/{}'.format(self.unique_file_name)
+        # TODO cloud storage
+        
+        # default storage
+        storage = FileSystemStorage(base_url=settings.MEDIA_URL)
+        storage.open(self.unique_file_name)
+        return storage.url(self.unique_file_name)
