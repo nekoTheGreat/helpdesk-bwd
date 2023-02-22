@@ -26,6 +26,6 @@ class Attachment(BaseModel):
         # TODO cloud storage
         
         # default storage
-        storage = FileSystemStorage(base_url=settings.MEDIA_URL)
+        storage = FileSystemStorage(base_url=settings.APP_URL + settings.MEDIA_URL)
         storage.open(self.unique_file_name)
         return storage.url(self.unique_file_name)
