@@ -51,5 +51,5 @@ def processAttachments(files):
             for chunk in file.chunks():
                 dest.write(chunk)
         if os.path.isfile(filepath):
-            items.append({"file_name": file.name, "unique_file_name": os.path.basename(filepath)})
+            items.append({"file_name": file.name, "unique_file_name": os.path.basename(filepath), "file_path": filepath})
     return items
