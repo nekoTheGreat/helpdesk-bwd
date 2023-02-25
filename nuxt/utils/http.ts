@@ -42,15 +42,17 @@ export async function request(url: string, method: string = "GET", payload?: Dic
         config.headers = Object.assign(config.headers, headers);
     }
     config.headers = Object.assign(config.headers, getAuthTokenHeader());
-    if(method.toLocaleLowerCase() == 'get'){
-        config.params = payload;
-    }else{
-        const formData = new FormData();
-        for(const [k, v] of Object.entries(payload)){
-            if(Array.isArray(v)) v.forEach(i => formData.append(k, i));
-            else formData.append(k, v);
+    if(payload){
+        if(method.toLocaleLowerCase() == 'get'){
+            config.params = payload;
+        }else{
+            const formData = new FormData();
+            for(const [k, v] of Object.entries(payload)){
+                if(Array.isArray(v)) v.forEach(i => formData.append(k, i));
+                else formData.append(k, v);
+            }
+            config.data = formData;
         }
-        config.data = formData;
     }
     try{
         const resp = await axios(config);
