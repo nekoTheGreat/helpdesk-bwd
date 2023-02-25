@@ -25,16 +25,14 @@ const form = ref<TicketForm>({
     deleted_photos: [],
 });
 const loading = ref(false);
-const init = () => {
-    if (props.ticket) {
-        for (const [k, v] of Object.entries(form.value)) {
-            if (Object.keys(props.ticket).includes(k)) {
-                const defval = k == 'photos' ? [] : '';
-                form.value[k] = props.ticket[k] ?? defval;
-            }
+if (props.ticket) {
+    for (const [k, v] of Object.entries(form.value)) {
+        if (Object.keys(props.ticket).includes(k)) {
+            const defval = k == 'photos' ? [] : '';
+            form.value[k] = props.ticket[k] ?? defval;
         }
     }
-};
+}
 const onSubmit = async () => {
     loading.value = true;
     const payload = Object.assign({}, form.value);
@@ -60,9 +58,6 @@ const onSubmit = async () => {
 const onCancel = () => {
     emit('cancel');
 };
-onMounted(() => {
-    init();
-});
 </script>
 <template>
     <div class="row d-flex justify-content-center">
