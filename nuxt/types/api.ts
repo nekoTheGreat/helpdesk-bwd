@@ -27,3 +27,20 @@ export interface Ticket{
     user: number,
     photos: Attachment[],
 }
+export interface Attachment{
+    id: number,
+    type: string,
+    identifier: number,
+    file_path: string,
+    file_name: string,
+    unique_file_name: string,
+    url: string
+}
+export interface AttachmentForm extends Attachment{
+    is_deleted?: boolean,
+}
+export interface TicketForm extends Omit<Ticket, 'photos'>{
+    photos?: AttachmentForm[],
+    images?: any[],
+    deleted_photos?: number[],
+}
