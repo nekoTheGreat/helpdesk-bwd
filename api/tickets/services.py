@@ -3,6 +3,8 @@ from rest_framework import serializers, status
 from .serializers import TicketSerializer
 from neko_commons.models import Attachment
 from neko_commons.serializers import AttachmentSerializer
+from django.conf import settings
+from os import path, remove as removeFile
 
 def save_ticket(data, id: int = None):
     if id is not None:
@@ -37,4 +39,6 @@ def add_attachment(ticket, data):
 def remove_attachment(ticket, photo_id):
     obj = Attachment.objects.filter(id=photo_id, identifier=ticket['id']).first()
     if obj:
+        if path.isfile(obj.file_path):
+            removeFile(obj.file_path)
         obj.delete()
