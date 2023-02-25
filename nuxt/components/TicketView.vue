@@ -24,9 +24,11 @@ const { ticket } = toRefs(props);
                         <hr />
                         <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner">
-                                <div class="carousel-item active" v-for="photo in ticket.photos" :key="photo.url">
-                                    <img :src="photo.url" class="d-block w-100">
-                                </div>
+                                <template v-for="(photo, index) in ticket.photos" :key="photo.url">
+                                    <div class="carousel-item" :class="{ 'active': index == 0 }">
+                                        <img :src="photo.url" class="d-block w-100">
+                                    </div>
+                                </template>
                             </div>
                             <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel"
                                 data-bs-slide="prev">
