@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view
 from rest_framework import generics, exceptions
 from .serializers import TicketSerializer
 from .models import Ticket
-from .services import save_ticket, add_attachment
+from .services import save_ticket, add_attachment, remove_attachment
 from neko_commons.models import Attachment
 from .permissions import TicketOwnerPermission
 from uuid import uuid4
@@ -24,6 +24,13 @@ class TicketCUDView(generics.RetrieveUpdateDestroyAPIView):
         items = processAttachments(self.request.FILES)
         for item in items:
             add_attachment(data, item)
+
+    def perform_destroy(self, instance):
+        ticket = self.get_object()
+        if len(ticket.photos) > 0:
+            for photo in ticket.photos:
+                remove_attachment(ticket.__dict__, photo.id)
+        return super().perform_destroy(instance)
 
 class TicketPhotoDeleteView(generics.DestroyAPIView):
     permission_classes = [TicketOwnerPermission]
