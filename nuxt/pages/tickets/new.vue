@@ -1,11 +1,10 @@
 <script setup>
-
-const onSubmit = (form) => {
-    console.log(form);
-};
+const onCancel = () => {
+    navigateTo("/tickets");
+}
 </script>
 <template>
     <div class="container">
-        <TicketForm @update:model-value="onSubmit"></TicketForm>
+        <TicketForm @cancel="onCancel"></TicketForm>
     </div>
 </template>

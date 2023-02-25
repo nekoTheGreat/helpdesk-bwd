@@ -1,12 +1,12 @@
 <script setup>
 
 const { ticket } = useFindOrFailTicket();
-const onSubmit = (form) => {
-    console.log(form);
-};
+const onCancel = () => {
+    navigateTo("/tickets");
+}
 </script>
 <template>
-    <div class="container">
-        <TicketForm :ticket="ticket" @update:model-value="onSubmit"></TicketForm>
+    <div class="container" v-if="ticket">
+        <TicketForm :ticket="ticket" @cancel="onCancel"></TicketForm>
     </div>
 </template>
