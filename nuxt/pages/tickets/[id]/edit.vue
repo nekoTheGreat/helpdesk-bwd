@@ -5,7 +5,7 @@ const onSubmitted = (payload) => {
     navigateTo("/tickets/" + payload.id);
 }
 const onCancel = () => {
-    navigateTo("/tickets");
+    navigateTo("/tickets/" + ticket.value.id);
 }
 </script>
 <template>
