@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { Ticket } from '~~/types/api';
+import { TicketForm } from '~~/types/api';
 import FileInput from './inputs/FileInput.vue';
 import { subjectOptions, barangayOptions, municipalityOptions } from '~~/stores/options';
+import TicketService from '~~/services/TicketService';
 
 interface Props {
-    ticket?: Ticket,
+    ticket?: TicketForm,
 }
+const ticketService = new TicketService();
 const props = defineProps<Props>();
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'cancel']);
 const formLegend = computed(() => props.ticket ? `#${props.ticket.id} Ticket Update` : 'New Ticket');
-const form = ref<Ticket>({
+const form = ref<TicketForm>({
     id: 0,
     subject: 'General',
     description: '',
@@ -19,7 +21,10 @@ const form = ref<Ticket>({
     municipality: '',
     user: 0,
     photos: [],
+    images: [],
+    deleted_photos: [],
 });
+const loading = ref(false);
 const init = () => {
     if (props.ticket) {
         for (const [k, v] of Object.entries(form.value)) {
@@ -30,12 +35,32 @@ const init = () => {
         }
     }
 };
-const onSubmit = () => {
-    emit('update:modelValue', Object.assign({}, form.value));
+const onSubmit = async () => {
+    loading.value = true;
+    const payload = Object.assign({}, form.value);
+    payload.deleted_photos = [];
+    if (payload.photos) for (const photo of payload.photos) {
+        if (photo.id && photo.is_deleted) payload.deleted_photos?.push(photo.id);
+    }
+    try {
+        let resp = null;
+        if (form.value.id) {
+            resp = await ticketService.update(form.value.id, payload);
+        } else {
+            resp = await ticketService.store(payload);
+        }
+        emit('update:modelValue', form);
+    } catch (e) {
+        alert(e.message);
+    } finally {
+        loading.value = false;
+    }
 };
-const ticketWatch = watch(() => props.ticket, () => init());
-onDeactivated(() => {
-    ticketWatch();
+const onCancel = () => {
+    emit('cancel');
+};
+onMounted(() => {
+    init();
 });
 </script>
 <template>
@@ -100,13 +125,15 @@ onDeactivated(() => {
                         <div class="row mb-3">
                             <div class="mb-3">
                                 <label for="photos" class="form-label">Photos:</label>
-                                <FileInput v-model="form.photos" multiple></FileInput>
+                                <FileInput v-model:modelValue="form.images" v-model:attachments="form.photos" multiple>
+                                </FileInput>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12 d-flex justify-content-end">
-                                <button class="btn btn-primary me-2" style="width:75px;">Save</button>
-                                <button class="btn btn-outline-dark" style="width:75px;">Cancel</button>
+                                <button class="btn btn-primary me-2" style="width:75px;" :disabled="loading">Save</button>
+                                <button @click="onCancel" :disabled="loading" type="button" class="btn btn-outline-dark"
+                                    style="width:75px;">Cancel</button>
                             </div>
                         </div>
                     </form>
