@@ -49,7 +49,8 @@ const onSubmit = async () => {
         } else {
             resp = await ticketService.store(payload);
         }
-        emit('update:modelValue', form);
+        form.value = resp.data;
+        emit('update:modelValue', resp.data);
     } catch (e) {
         alert(e.message);
     } finally {
