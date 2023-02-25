@@ -13,6 +13,14 @@ def save_ticket(data, id: int = None):
     if not serializer.is_valid():
         raise serializers.ValidationError(serializer.errors, status.HTTP_400_BAD_REQUEST)
     serializer.save()
+    ticket = serializer.data
+    deleted_photos = data.getlist('deleted_photos')
+    if deleted_photos:
+        for photo_id in deleted_photos:
+            remove_attachment(ticket, photo_id)
+    
+    ticket = Ticket.objects.get(pk=id)
+    serializer = TicketSerializer(ticket)
     return serializer.data
 
 def add_attachment(ticket, data):
@@ -25,3 +33,8 @@ def add_attachment(ticket, data):
         raise serializers.ValidationError(serializer.errors, status.HTTP_400_BAD_REQUEST)
     serializer.save()
     return serializer.data
+
+def remove_attachment(ticket, photo_id):
+    obj = Attachment.objects.filter(id=photo_id, identifier=ticket['id']).first()
+    if obj:
+        obj.delete()
