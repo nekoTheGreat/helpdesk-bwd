@@ -1,3 +1,4 @@
+import { TicketForm } from "~~/types/api";
 import { Dict } from "~~/types/datastructures";
 
 export default class TicketService{
@@ -13,5 +14,15 @@ export default class TicketService{
     
     async find(id: number){
         return await request(`${this.api_url}${id}`);
+    }
+
+    async store(ticket: TicketForm) {
+        delete ticket.photos;
+        return await request(`${this.api_url}`, "POST", ticket, {"Content-Type": "multipart/form-data"});
+    }
+
+    async update(id: number, ticket: TicketForm) {
+        delete ticket.photos;
+        return await request(`${this.api_url}${id}/`, "PUT", ticket, {"Content-Type": "multipart/form-data"});
     }
 }
