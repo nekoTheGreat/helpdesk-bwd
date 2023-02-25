@@ -4,6 +4,6 @@ const { ticket } = useFindOrFailTicket();
 </script>
 <template>
     <div class="container">
-        <TicketView :ticket="ticket"></TicketView>
+        <TicketView v-if="ticket" :ticket="ticket"></TicketView>
     </div>
 </template>
