@@ -25,4 +25,8 @@ export default class TicketService{
         delete ticket.photos;
         return await request(`${this.api_url}${id}/`, "PUT", ticket, {"Content-Type": "multipart/form-data"});
     }
+
+    async destroy(id: number){
+        return await request(`${this.api_url}${id}/`, "DELETE");
+    }
 }
