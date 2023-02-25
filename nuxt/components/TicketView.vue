@@ -12,6 +12,14 @@ const { ticket } = toRefs(props);
     <div class="row d-flex justify-content-center" v-if="ticket">
         <div class="col-12 col-sm-9 col-md-9 col-lg-7">
             <div class="card p-3 shadow">
+                <div class="d-flex justify-content-end me-2">
+                    <a href="#" @click.prevent="onDelete" class="me-2" alt="Delete Ticket">
+                        <i class="bi bi-trash3"></i>
+                    </a>
+                    <NuxtLink :to="'/tickets/' + ticket.id + '/edit'" alt="Edit Ticket">
+                        <i class="bi bi-pencil-square"></i>
+                    </NuxtLink>
+                </div>
                 <div class="card-body">
                     <h5 class="card-title">#{{ ticket.id }} {{ ticket.subject }}</h5>
                     <div class="card-text">
