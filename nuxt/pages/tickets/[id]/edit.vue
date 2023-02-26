@@ -1,8 +1,8 @@
 <script setup>
-import useFindOrFailTicketfunction from '~~/composables/findOrFailTicket';
+import useFindOrFailTicket from '~~/composables/findOrFailTicket';
 
 
-const { ticket } = useFindOrFailTicketfunction();
+const { ticket } = useFindOrFailTicket();
 const onSubmitted = (payload) => {
     navigateTo("/tickets/" + payload.id);
 }
