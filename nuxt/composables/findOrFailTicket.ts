@@ -1,6 +1,6 @@
 import TicketService from '~~/services/TicketService';
 
-export default async function useFindOrFailTicket(){
+export default function useFindOrFailTicket(){
     const route = useRoute();
     const id = route.params.id * 1;
     const ticketService = new TicketService();
