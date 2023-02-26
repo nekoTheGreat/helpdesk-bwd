@@ -1,6 +1,8 @@
 <script setup>
+import useFindOrFailTicketfunction from '~~/composables/findOrFailTicket';
 
-const { ticket } = useFindOrFailTicket();
+
+const { ticket } = useFindOrFailTicketfunction();
 </script>
 <template>
     <div class="container">
