@@ -1,4 +1,6 @@
 from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.mixins import status
 from rest_framework import generics, exceptions
 from .serializers import TicketSerializer
 from .models import Ticket
@@ -9,10 +11,22 @@ from uuid import uuid4
 import os
 from django.conf import settings
 
+
 class TicketListView(generics.ListCreateAPIView):
     permission_classes = [TicketOwnerPermission]
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
+
+    def create(self, request, *args, **kwargs):
+        user = request.user
+        data = request.data.copy().dict()
+        if user:
+            data['user'] = user.id
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 class TicketRUDView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [TicketOwnerPermission]
