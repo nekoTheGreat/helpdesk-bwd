@@ -1,12 +1,24 @@
 <script setup lang="ts">
+import useDestroyTicket from '~~/composables/destroryTicket';
 import TicketService from '~~/services/TicketService';
+import { Ticket } from '~~/types/api';
 import { fullAddressFromTicket } from '~~/utils/misc';
 
-const tickets = ref([]);
+const tickets = ref<Ticket[]>([]);
 const ticketService = new TicketService();
+const destroyTicket = useDestroyTicket();
+
+const onDeleteTicket = async (ticket: Ticket) => {
+    const res = await destroyTicket.destroy(ticket, { disableRedirect: true });
+    if (res) {
+        const index = tickets.value.findIndex(it => it.id == ticket.id);
+        if (index > -1) tickets.value.splice(index, 1);
+    }
+}
+
 onMounted(async () => {
     const resp = await ticketService.list();
-    tickets.value = resp.data.results;
+    tickets.value = resp.data.results as Ticket[];
 });
 </script>
 <template>
@@ -35,7 +47,11 @@ onMounted(async () => {
                     <td>{{ ticket.subject }}</td>
                     <td>{{ ticket.description }}</td>
                     <td>{{ fullAddressFromTicket(ticket) }}</td>
-                    <td></td>
+                    <td>
+                        <a href="#" @click.prevent="onDeleteTicket(ticket)" class="me-2" alt="Delete Ticket">
+                            <i class="bi bi-trash3"></i>
+                        </a>
+                    </td>
                 </tr>
             </tbody>
         </table>
