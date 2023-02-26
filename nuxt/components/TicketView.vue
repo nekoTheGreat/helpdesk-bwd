@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TicketService from '~~/services/TicketService';
+import useDestroyTicket from '~~/composables/destroryTicket';
 import { Ticket } from '~~/types/api';
 import { fullAddressFromTicket } from '~~/utils/misc';
 
@@ -7,18 +7,11 @@ interface Props {
     ticket: Ticket,
 }
 
-const ticketService = new TicketService();
 const props = defineProps<Props>();
 const { ticket } = toRefs(props);
-const loading = ref(false);
+const destroyTicket = useDestroyTicket();
 const onDelete = async () => {
-    const confirmed = confirm("Are you sure you want to delete this ticket?");
-    if (confirmed) {
-        loading.value = true;
-        await ticketService.destroy(ticket.value.id);
-        loading.value = false;
-        navigateTo("/tickets");
-    }
+    destroyTicket.destroy(ticket.value);
 }
 </script>
 <template>
