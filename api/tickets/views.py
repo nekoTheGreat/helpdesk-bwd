@@ -14,7 +14,7 @@ class TicketListView(generics.ListCreateAPIView):
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
 
-class TicketCUDView(generics.RetrieveUpdateDestroyAPIView):
+class TicketRUDView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [TicketOwnerPermission]
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
