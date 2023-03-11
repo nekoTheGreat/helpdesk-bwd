@@ -1,5 +1,5 @@
 import { Dict } from "~~/types/datastructures";
-import { PagingConfig } from "~~/types/api";
+import { ApiResponse, PagingConfig } from "~~/types/api";
 
 export default class BaseApiService{
     protected base_api_url: string = '';
@@ -24,7 +24,8 @@ export default class BaseApiService{
 
     async list(filters?: Dict, pageConfig?: PagingConfig, sortBy?: Dict){
         const payload = Object.assign({}, filters, pageConfig, sortBy);
-        return await request(this.api_url, "GET", payload);
+        const { data, status } = await request(this.api_url, "GET", payload);
+        return {data: data.results, status: status} as ApiResponse;
     }
     
     async find(id: number, options?: Dict){

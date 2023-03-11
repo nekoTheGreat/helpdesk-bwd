@@ -9,6 +9,10 @@ export interface PagingConfig{
     page: number,
     perPage?: number,
 }
+export interface ApiResponse{
+    status: number,
+    data: any,
+}
 export interface Attachment{
     id: number,
     type: string,
