@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import AuthService from '~~/services/AuthService';
 
+const config = useRuntimeConfig();
 const form = reactive({
     email: '',
     password: '',
@@ -9,7 +10,7 @@ const form = reactive({
 const loading = ref(false);
 const onSubmit = async () => {
     grecaptcha?.ready(async function () {
-        grecaptcha?.execute('6LeU2u8kAAAAAMs1runBW0D-47lM4c07LGO5HMkL', { action: 'submit' }).then(async function (token) {
+        grecaptcha?.execute(config.public.recaptcha_key, { action: 'submit' }).then(async function (token) {
             login();
         });
     });

@@ -9,6 +9,7 @@ export default defineNuxtConfig({
         api_url: process.env.API_URL,
         public: {
             api_url: process.env.API_URL,
+            recaptcha_key: process.env.reCaptchaKey,
         }
     },
     debug: process.env.DEBUG,
