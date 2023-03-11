@@ -39,9 +39,16 @@ const login = async () => {
                     <label for="email">Email:</label>
                     <input v-model="form.email" type="email" class="form-control" placeholder="sample@email.com" />
                 </div>
-                <div class="mb-3">
+                <div class="mb-1">
                     <label for="password">Password:</label>
                     <input v-model="form.password" type="password" class="form-control" />
+                </div>
+                <div class="mb-1">
+                    <div class="p-1" style="font-size: 0.7rem">
+                        This site is protected by reCAPTCHA and the Google
+                        <a href="https://policies.google.com/privacy" class="text-warning">Privacy Policy</a> and
+                        <a href="https://policies.google.com/terms" class="text-warning">Terms of Service</a> apply.
+                    </div>
                 </div>
                 <div class="mb-3 d-flex">
                     <button class="btn btn-light text ms-auto" :disabled="loading">
@@ -56,3 +63,8 @@ const login = async () => {
         </form>
     </div>
 </template>
+<style>
+.grecaptcha-badge {
+    visibility: hidden;
+}
+</style>
