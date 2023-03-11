@@ -10,19 +10,22 @@ const loading = ref(false);
 const onSubmit = async () => {
     grecaptcha?.ready(async function () {
         grecaptcha?.execute('6LeU2u8kAAAAAMs1runBW0D-47lM4c07LGO5HMkL', { action: 'submit' }).then(async function (token) {
-            const authService = new AuthService();
-            loading.value = true;
-            try {
-                await authService.login(form.email, form.password, form.remember_me);
-                navigateTo("/");
-            } catch (e) {
-                alert(e.message);
-            } finally {
-                loading.value = false;
-            }
+            login();
         });
     });
 };
+const login = async () => {
+    const authService = new AuthService();
+    loading.value = true;
+    try {
+        await authService.login(form.email, form.password);
+        navigateTo("/");
+    } catch (e) {
+        alert(e.message);
+    } finally {
+        loading.value = false;
+    }
+}
 </script>
 <template>
     <div class="card bg-primary mt-2 col-11 col-sm-7 col-md-5 col-lg-4 shadow text-white" style="max-width:340px;">
