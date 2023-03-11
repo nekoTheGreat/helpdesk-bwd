@@ -1,32 +1,19 @@
 import { TicketForm } from "~~/types/api";
-import { Dict } from "~~/types/datastructures";
+import BaseApiService from "./BaseApiService";
 
-export default class TicketService{
+export default class TicketService extends BaseApiService{
     
-    constructor(){
-        const config = useRuntimeConfig();
-        this.api_url = config.public.api_url+"/tickets/";
-    }
-
-    async list(filters?: Dict){
-        return await request(this.api_url, "GET");
-    }
-    
-    async find(id: number){
-        return await request(`${this.api_url}${id}`);
+    setup(){
+        this.setApiUrl(this.base_api_url+"tickets/");
     }
 
     async store(ticket: TicketForm) {
         delete ticket.photos;
-        return await request(`${this.api_url}`, "POST", ticket, {"Content-Type": "multipart/form-data"});
+        return await super.store(ticket);
     }
 
     async update(id: number, ticket: TicketForm) {
         delete ticket.photos;
-        return await request(`${this.api_url}${id}/`, "PUT", ticket, {"Content-Type": "multipart/form-data"});
-    }
-
-    async destroy(id: number){
-        return await request(`${this.api_url}${id}/`, "DELETE");
+        return await super.update(id, ticket);
     }
 }
