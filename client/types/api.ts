@@ -5,6 +5,10 @@ export interface ApiError{
     errors?: Dict,
     status: number,
 }
+export interface PagingConfig{
+    page: number,
+    perPage?: number,
+}
 export interface Attachment{
     id: number,
     type: string,
