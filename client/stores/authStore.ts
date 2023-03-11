@@ -5,6 +5,9 @@ export const useAuthStore = defineStore('auth', {
     state: () => {
         return {
             token: useLocalStorage<string>('token', ''),
+            guest_route_names: [
+                'tickets', 'login', 'index', 'signup'
+            ],
         }
     },
     getters: {
