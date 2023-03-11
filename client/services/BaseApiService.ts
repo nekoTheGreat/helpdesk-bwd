@@ -1,4 +1,5 @@
 import { Dict } from "~~/types/datastructures";
+import { PagingConfig } from "~~/types/api";
 
 export default class BaseApiService{
     protected base_api_url: string = '';
@@ -21,13 +22,13 @@ export default class BaseApiService{
         return this.api_url;
     }
 
-    async list(filters?: Dict, page?: number, sortBy?: Dict){
-        const payload = Object.assign({}, filters, {page: page}, sortBy);
+    async list(filters?: Dict, pageConfig?: PagingConfig, sortBy?: Dict){
+        const payload = Object.assign({}, filters, pageConfig, sortBy);
         return await request(this.api_url, "GET", payload);
     }
     
     async find(id: number, options?: Dict){
-        return await request(`${this.api_url}${id}`, options);
+        return await request(`${this.api_url}${id}`, 'GET', options);
     }
 
     async store(data: any) {
