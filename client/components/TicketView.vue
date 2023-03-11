@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import useDestroyTicket from '~~/composables/destroryTicket';
+import { useAuthStore } from '~~/stores/authStore';
 import { Ticket } from '~~/types/api';
 import { fullAddressFromTicket } from '~~/utils/misc';
 
@@ -7,6 +8,7 @@ interface Props {
     ticket: Ticket,
 }
 
+const authStore = useAuthStore();
 const props = defineProps<Props>();
 const { ticket } = toRefs(props);
 const destroyTicket = useDestroyTicket();
@@ -18,7 +20,7 @@ const onDelete = async () => {
     <div class="row d-flex justify-content-center" v-if="ticket">
         <div class="col-12 col-sm-9 col-md-9 col-lg-7">
             <div class="card p-3 shadow">
-                <div class="d-flex justify-content-end me-2">
+                <div v-if="authStore.authenticated" class="d-flex justify-content-end me-2">
                     <a href="#" @click.prevent="onDelete" class="me-2" alt="Delete Ticket">
                         <i class="bi bi-trash3"></i>
                     </a>

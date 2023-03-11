@@ -3,7 +3,9 @@ import useDestroyTicket from '~~/composables/destroryTicket';
 import TicketService from '~~/services/TicketService';
 import { Ticket } from '~~/types/api';
 import { fullAddressFromTicket } from '~~/utils/misc';
+import { useAuthStore } from '~~/stores/authStore';
 
+const authStore = useAuthStore();
 const tickets = ref<Ticket[]>([]);
 const ticketService = new TicketService();
 const destroyTicket = useDestroyTicket();
@@ -24,7 +26,7 @@ onMounted(async () => {
 <template>
     <div class="container">
         <div class="d-flex justify-content-end mb-2">
-            <NuxtLink class="btn btn-primary" to="/tickets/new">Create Ticket</NuxtLink>
+            <NuxtLink v-if="authStore.authenticated" class="btn btn-primary" to="/tickets/new">Create Ticket</NuxtLink>
         </div>
         <table class="table table-bordered">
             <thead>
