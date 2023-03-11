@@ -8,16 +8,20 @@ const form = reactive({
 });
 const loading = ref(false);
 const onSubmit = async () => {
-    const authService = new AuthService();
-    loading.value = true;
-    try {
-        await authService.login(form.email, form.password, form.remember_me);
-        navigateTo("/");
-    } catch (e) {
-        alert(e.message);
-    } finally {
-        loading.value = false;
-    }
+    grecaptcha?.ready(async function () {
+        grecaptcha?.execute('6LeU2u8kAAAAAMs1runBW0D-47lM4c07LGO5HMkL', { action: 'submit' }).then(async function (token) {
+            const authService = new AuthService();
+            loading.value = true;
+            try {
+                await authService.login(form.email, form.password, form.remember_me);
+                navigateTo("/");
+            } catch (e) {
+                alert(e.message);
+            } finally {
+                loading.value = false;
+            }
+        });
+    });
 };
 </script>
 <template>
