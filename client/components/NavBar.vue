@@ -1,4 +1,5 @@
-<script setup lang="ts">;
+<script setup lang="ts">
+;
 import { Collapse } from 'bootstrap/dist/js/bootstrap.esm.js';
 import { useAuthStore } from '~~/stores/authStore';
 
@@ -12,7 +13,7 @@ onMounted(() => {
 });
 </script>
 <template>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-3">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
             <div class="me-1" style="position:relative; width:50px;height:50px;">
                 <NuxtLink class="navbar-brand" style="position:absolute; top: -5px;width:100%" to="/">
@@ -45,8 +46,7 @@ onMounted(() => {
                     </template>
                     <li class="nav-item dropdown" v-else>
                         <a class="nav-link dropdown-toggle" :class="{ 'active': isLinkActive('/profile') }" href="#"
-                            id="mainNavBarAccountDropdown" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
+                            id="mainNavBarAccountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Account
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="mainNavBarAccountDropdown">

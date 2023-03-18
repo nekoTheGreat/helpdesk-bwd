@@ -11,8 +11,8 @@ const pendingStore = usePendingStore();
             <div class="w-100 bg-primary text-center text-white">Loading navbar...</div>
         </template>
     </ClientOnly>
-    <div class="container-fluid">
-        <NekoProgressBar v-if="pendingStore.pending"></NekoProgressBar>
+    <NekoProgressBar v-if="pendingStore.pending"></NekoProgressBar>
+    <div class="container-fluid mt-3">
         <slot />
     </div>
 </template>
