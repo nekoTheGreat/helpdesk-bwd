@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import useDestroyTicket from '~~/composables/destroryTicket';
 import TicketService from '~~/services/TicketService';
 import { Ticket } from '~~/types/api';
 import { fullAddressFromTicket } from '~~/utils/misc';
 import { useAuthStore } from '~~/stores/authStore';
+import { useListDestroyView } from '~~/composables/CRUDView';
 import { NekoDataTableColumn } from '~~/types/neko-components';
 
 const authStore = useAuthStore();
-const tickets = ref<Ticket[]>([]);
 const ticketService = new TicketService();
-const destroyTicket = useDestroyTicket();
+const { items: tickets, deleteData: deleteTicket, paging, getData } = useListDestroyView(ticketService);
+
 let datatable_columns = [
     { name: 'id', label: 'Id', slot: true },
     { name: 'subject', label: 'Subject' },
@@ -21,17 +21,12 @@ if (authStore.authenticated) {
 }
 
 const onDeleteTicket = async (ticket: Ticket) => {
-    const res = await destroyTicket.destroy(ticket, { disableRedirect: true });
-    if (res) {
-        const index = tickets.value.findIndex(it => it.id == ticket.id);
-        if (index > -1) tickets.value.splice(index, 1);
-    }
+    const confirmed = confirm(`Are you sure you want to delete ticket #${ticket.id}`);
+    if (!confirmed) return;
+    await deleteTicket(ticket.id);
 }
 
-onMounted(async () => {
-    const resp = await ticketService.list();
-    tickets.value = resp.data.results as Ticket[];
-});
+getData();
 </script>
 <template>
     <div class="container">
@@ -51,5 +46,6 @@ onMounted(async () => {
                 </a>
             </template>
         </NekoDataTable>
+        <NekoPaging v-model="paging.page" @update:model-value="getData()"></NekoPaging>
     </div>
 </template>
