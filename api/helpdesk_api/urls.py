@@ -28,3 +28,8 @@ urlpatterns = [
     path('api/tickets/', include('tickets.urls')),
     path('api/users/', include('neko_users.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler400 = 'helpdesk_api.exceptions.error400'
+handler403 = 'helpdesk_api.exceptions.error403'
+handler404 = 'helpdesk_api.exceptions.error404'
+handler500 = 'helpdesk_api.exceptions.error500'
