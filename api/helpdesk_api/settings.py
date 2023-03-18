@@ -34,11 +34,7 @@ if os.environ.get("ALLOWED_HOSTS") != None:
 CORS_ALLOWED_ORIGINS = []
 if os.environ.get("ALLOWED_ORIGINS") != None:
     CORS_ALLOWED_ORIGINS = CORS_ALLOWED_ORIGINS + os.environ.get("ALLOWED_ORIGINS").split(",")
-if len(ALLOWED_HOSTS) == 0:
-    DEBUG = True
-else:
-    DEBUG = os.environ.get("DEBUG")
-
+DEBUG = os.environ.get("DEBUG") == 'True'
 AUTH_USER_MODEL = "neko_users.User"
 
 # Application definition
