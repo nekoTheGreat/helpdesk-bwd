@@ -7,7 +7,7 @@ export default class AuthService{
     constructor(){
         this.authStore = useAuthStore();
         const config = useRuntimeConfig();
-        this.login_url = config.public.api_url+"/auth/login/";
+        this.login_url = config.public.api_url+"auth/login/";
     }
 
     async login(email: string, password: string){
