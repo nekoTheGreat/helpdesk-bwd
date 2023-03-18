@@ -10,15 +10,6 @@ const emit = defineEmits(['update:modelValue', 'update:attachments']);
 const uploaded_files = ref([]);
 const attachments = ref<AttachmentForm[]>([]);
 
-const files = computed(() => {
-    let items = Object.assign([], attachments.value);
-    uploaded_files.value.forEach((it) => {
-        it.file_name = it.name;
-        items.push(it);
-    });
-    return items;
-});
-
 const onInput = (evt: Event) => {
     uploaded_files.value = [];
     if (evt.target.files.length == 0) return;
@@ -65,14 +56,16 @@ onMounted(() => {
 </script>
 <template>
     <div>
-        <div v-if="files.length">
-            <span v-for="file in files" class="badge bg-info me-1 mb-2 text-dark fs-6" :class="fileClasses(file)">
+        <div>
+            <span v-for="file in attachments" class="badge bg-info me-1 mb-2 text-dark fs-6" :class="fileClasses(file)">
                 {{ file.file_name }}
                 <a v-if="!fileInRemoved(file)" @click.prevent="onToggleFile(file)" href="#" class="ms-1 text-dark"><i
                         class="bi bi-trash3"></i></a>
                 <a v-else @click.prevent="onToggleFile(file)" href="#" class="ms-1 text-dark"><i
                         class="bi bi-arrow-counterclockwise"></i></a>
             </span>
+            <span v-for="file in uploaded_files" class="badge border border-info me-1 mb-2 text-dark fs-6">{{ file.name
+            }}</span>
         </div>
         <input v-bind="attrs" class="form-control" type="file" @input="onInput">
     </div>
