@@ -25,6 +25,9 @@ class TicketListView(generics.ListCreateAPIView):
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
+        items = processAttachments(self.request.FILES)
+        for item in items:
+            add_attachment(serializer.data, item)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
