@@ -9,6 +9,8 @@ class Ticket(BaseModel):
     barangay = models.CharField(max_length=255, null=True, blank=True)
     municipality = models.CharField(max_length=255, null=True, blank=True)
     user = models.ForeignKey("neko_users.User", db_column="user_id", on_delete=models.CASCADE, default=None)
+    status = models.CharField(max_length=50, null=True, blank=True, default="pending")
+    publish_status = models.CharField(max_length=50, null=True, blank=True, default="draft")
     @property
     def photos(self):
         return Attachment.objects.filter(type="ticket_images", identifier=self.id, is_active=True).all()
