@@ -20,15 +20,10 @@ const onInput = (evt: Event) => {
     emit('update:modelValue', uploaded_files.value);
 };
 const onToggleFile = (file: any) => {
-    const index = files.value.findIndex(it => it == file);
-    const found = index > -1 ? files.value[index] : null;
-    if (found == null) return;
-    if (found.id) {
+    const index = attachments.value.findIndex(it => it == file);
+    if (index > -1) {
         attachments.value[index].is_deleted = !attachments.value[index].is_deleted;
         emit('update:attachments', Object.assign([], attachments.value));
-    } else {
-        const index = uploaded_files.value.findIndex(it => it == file);
-        if (index > -1) uploaded_files.value.splice(index, 1);
     }
 };
 const fileInRemoved = (file: AttachmentForm) => {
