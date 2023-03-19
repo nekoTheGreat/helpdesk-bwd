@@ -15,6 +15,12 @@ const destroyTicket = useDestroyTicket();
 const onDelete = async () => {
     destroyTicket.destroy(ticket.value);
 }
+const ticketStatusClass = (status: string) => {
+    return {
+        "ongoing": "bg-primary",
+        "completed": "bg-info"
+    }[status] ?? "bg-secondary";
+}
 </script>
 <template>
     <div class="row d-flex justify-content-center" v-if="ticket">
@@ -30,6 +36,12 @@ const onDelete = async () => {
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">#{{ ticket.id }} {{ ticket.subject }}</h5>
+                    <div class="card-text">
+                        <h6 v-if="ticket.publish_status == 'draft'"><span class="badge bg-secondary">Draft</span></h6>
+                        <h5 v-else><span class="badge text-capitalize" :class="ticketStatusClass(ticket.status)">{{
+                            ticket.status }}</span>
+                        </h5>
+                    </div>
                     <div class="card-text">
                         <p>{{ ticket.description }}</p>
                     </div>

@@ -23,6 +23,8 @@ const form = ref<TicketForm>({
     photos: [],
     images: [],
     deleted_photos: [],
+    status: '',
+    publish_status: '',
 });
 const loading = ref(false);
 if (props.ticket) {
@@ -123,6 +125,27 @@ const onCancel = () => {
                                 <label for="photos" class="form-label">Photos:</label>
                                 <FileInput v-model:modelValue="form.images" v-model:attachments="form.photos" multiple>
                                 </FileInput>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-sm-4 col-md-3">
+                                <div class="mb-3">
+                                    <label for="purok" class="form-label">Publish:</label>
+                                    <select v-model="form.publish_status" class="form-select">
+                                        <option value="draft">draft</option>
+                                        <option value="published">published</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-4 col-md-3">
+                                <div class="mb-3">
+                                    <label for="purok" class="form-label">Status:</label>
+                                    <select v-model="form.status" class="form-select">
+                                        <option value="pending">pending</option>
+                                        <option value="ongoing">ongoing</option>
+                                        <option value="completed">completed</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="row">

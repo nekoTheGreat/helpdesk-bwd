@@ -15,6 +15,8 @@ let datatable_columns = [
     { name: 'subject', label: 'Subject' },
     { name: 'description', label: 'Description' },
     { name: 'address', label: 'Address', slot: true },
+    { name: 'publish_status', label: 'Published', class: 'text-center', style: 'width: 70px;', slot: true },
+    { name: 'status', label: 'Status', class: 'text-center', style: 'width: 70px;' },
 ] as NekoDataTableColumn[];
 if (authStore.authenticated) {
     datatable_columns.push({ name: 'actions', label: 'Actions', slot: true, class: 'text-center', style: 'width: 70px;' });
@@ -39,6 +41,9 @@ getData();
             </template>
             <template #address="slotProps">
                 {{ fullAddressFromTicket(slotProps.data) }}
+            </template>
+            <template #publish_status="slotProps">
+                {{ slotProps.data.publish_status == 'published' ? 'Yes' : 'No' }}
             </template>
             <template #actions="slotProps">
                 <a href="#" @click.prevent="onDeleteTicket(slotProps.data)" class="me-2" alt="Delete Ticket">

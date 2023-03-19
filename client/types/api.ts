@@ -34,6 +34,8 @@ export interface Ticket{
     municipality: string,
     user: number,
     photos: Attachment[],
+    status: string,
+    publish_status: string,
 }
 export interface Attachment{
     id: number,
