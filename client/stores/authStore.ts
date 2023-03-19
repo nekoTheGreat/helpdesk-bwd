@@ -1,10 +1,10 @@
 import { defineStore } from "pinia";
-import { useLocalStorage} from '@vueuse/core';
+import { useSessionStorage} from '@vueuse/core';
 
 export const useAuthStore = defineStore('auth', {
     state: () => {
         return {
-            token: useLocalStorage<string>('token', ''),
+            token: useSessionStorage<string>('token', ''),
             guest_route_names: [
                 'tickets', 'login', 'index', 'signup',
                 'tickets-id',
