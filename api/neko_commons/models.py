@@ -16,7 +16,7 @@ class Attachment(BaseModel):
     file_path = models.TextField()
     is_active = models.BooleanField(default=True)
     file_name = models.CharField(max_length=255)
-    unique_file_name = models.CharField(max_length=255)
+    unique_file_name = models.CharField(unique=True, max_length=255)
 
     class Meta:
         db_table = "attachments"
